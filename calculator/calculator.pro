@@ -10,6 +10,8 @@ TARGET = calculator
 TEMPLATE = app
 
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    Qcalculatorui.cpp
 
-HEADERS  +=
+HEADERS  += \
+    Qcalculatorui.h
