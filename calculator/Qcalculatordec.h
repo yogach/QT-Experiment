@@ -23,6 +23,9 @@ protected:
 public:
     QcalculatorDec();
     ~QcalculatorDec();
+    bool expression(const QString& exp);
+    QString expression();
+    QString result();
 };
 
 #endif // QCALCULATORDEC_H

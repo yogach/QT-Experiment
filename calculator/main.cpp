@@ -1,9 +1,10 @@
 #include <QtGui/QApplication>
 #include "Qcalculatorui.h"
+#include "Qcalculatordec.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+   /* QApplication a(argc, argv);
     QCalculatorUI* calUI = QCalculatorUI::NewInstance();
     int ret = -1;
 
@@ -16,7 +17,9 @@ int main(int argc, char *argv[])
        delete calUI;
     }
 
+    return ret; */
 
+    QcalculatorDec dec;
 
-    return ret;
+    return 0;
 }
