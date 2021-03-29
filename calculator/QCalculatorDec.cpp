@@ -11,7 +11,7 @@ QCalculatorDec::QCalculatorDec()
 
     for(int i = 0; i< ret.length() ; i++)
     {
-       // qDebug() << ret[i];
+        qDebug() << ret[i];
     }
 
     QQueue<QString> out ;
@@ -228,4 +228,38 @@ bool QCalculatorDec::transform(QQueue<QString>& exp , QQueue<QString>& out)
          out.clear();
 
      return ret;
+}
+
+QString QCalculatorDec::calculate(QQueue<QString>& exp)
+{
+    QString ret = "Error";
+    QStack<QString> stack;
+
+    while( !exp.isEmpty() )
+    {
+         QString e = exp.dequeue();
+
+         if( isNumber(e) )
+         {
+             stack.push( e );
+         }
+         else if( isOperator(e) )
+         {
+             QString rp = !stack.isEmpty() ? stack.pop() : "";
+             QString lp = !stack.isEmpty() ? stack.pop() : "";
+
+             QString ret = calculate(lp , e , rp);
+
+
+         }
+    }
+
+    return ret;
+}
+
+QString QCalculatorDec::calculate(QString lp , QString op , QString rp)
+{
+    QString ret = "Error";
+
+    return ret;
 }
