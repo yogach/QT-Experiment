@@ -11,9 +11,9 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    Qcalculatorui.cpp \
-    Qcalculatordec.cpp
+    QCalculatorDec.cpp \
+    QCalculatorUI.cpp
 
 HEADERS  += \
-    Qcalculatorui.h \
-    Qcalculatordec.h
+    QCalculatorDec.h \
+    QCalculatorUI.h

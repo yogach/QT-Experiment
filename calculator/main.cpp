@@ -1,6 +1,6 @@
 #include <QtGui/QApplication>
-#include "Qcalculatorui.h"
-#include "Qcalculatordec.h"
+#include "QCalculatorUI.h"
+#include "QCalculatorDec.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 
     return ret; */
 
-    QcalculatorDec dec;
+    QCalculatorDec dec;
 
     return 0;
 }

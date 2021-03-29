@@ -4,7 +4,7 @@
 #include <QString>
 #include <QQueue>
 
-class QcalculatorDec
+class QCalculatorDec
 {
 protected:
     QString m_exp;
@@ -19,10 +19,11 @@ protected:
     bool isRight(QString s);
     int priority(QString s);
     QQueue<QString> split(const QString& exp);
-
+    bool match(QQueue<QString>& exp);
+    bool transform(QQueue<QString>& exp , QQueue<QString>& out);
 public:
-    QcalculatorDec();
-    ~QcalculatorDec();
+    QCalculatorDec();
+    ~QCalculatorDec();
     bool expression(const QString& exp);
     QString expression();
     QString result();

@@ -1,4 +1,4 @@
-#include "Qcalculatorui.h"
+#include "QCalculatorUI.h"
 #include <QDebug>
 #include <QString>
 
