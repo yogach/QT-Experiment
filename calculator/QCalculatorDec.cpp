@@ -126,7 +126,7 @@ QQueue<QString> QCalculatorDec::split(const QString& exp)
                 num.clear();
             }
 
-            //判断当前符号是不是正负号
+            //当前一个符号为空 或者为( 或者为运算符时 当前符号为正负号
             if( isSign(exp[i]) && ( (pre == "") || ( pre == "(" ) || isOperator(pre) ) )
             {
                 num += exp[i];
@@ -180,6 +180,7 @@ bool QCalculatorDec::match(QQueue<QString>& exp)
     return ret && stack.isEmpty();
 }
 
+//中缀转后缀表达式
 bool QCalculatorDec::transform(QQueue<QString>& exp , QQueue<QString>& out)
 {
      bool ret = match(exp);
@@ -236,6 +237,7 @@ QString QCalculatorDec::calculate(QQueue<QString>& exp)
 {
     QString ret = "Error";
     QStack<QString> stack;
+    QString result = "Error";
 
     while( !exp.isEmpty() )
     {
@@ -250,7 +252,7 @@ QString QCalculatorDec::calculate(QQueue<QString>& exp)
              QString rp = !stack.isEmpty() ? stack.pop() : "";
              QString lp = !stack.isEmpty() ? stack.pop() : "";
 
-             QString result = calculate(lp , e , rp);
+             result = calculate(lp , e , rp);
              if( result != "Error" )
              {
                  stack.push(result);
@@ -268,7 +270,7 @@ QString QCalculatorDec::calculate(QQueue<QString>& exp)
     }
 
     //当传入的队列为空 栈中只有一个元素并且是数字时，判断为运算成功
-    if(exp.isEmpty() && isNumber(stack.top()) && ( stack.size() == 1 ))
+    if((result != "Error") && exp.isEmpty() && isNumber(stack.top()) && ( stack.size() == 1 ))
     {
         ret = stack.pop();
     }

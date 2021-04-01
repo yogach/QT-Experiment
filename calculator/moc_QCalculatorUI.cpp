@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'QCalculatorUI.h'
 **
-** Created: Mon Mar 29 14:19:07 2021
+** Created: Thu Apr 1 15:27:54 2021
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.4)
 **
 ** WARNING! All changes made in this file will be lost!

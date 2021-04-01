@@ -19,15 +19,4 @@ int main(int argc, char *argv[])
     }
 
     return ret;
-
-    /*
-    QCalculatorDec c;
-    QString exp = " -8 + ( 2 - -1) * 3"; //
-
-    c.expression(exp);
-
-    qDebug() << c.expression();
-*/
-
-    return 0;
 }
