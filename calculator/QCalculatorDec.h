@@ -20,7 +20,7 @@ protected:
     int priority(QString s);
     QQueue<QString> split(const QString& exp);
     QString calculate(QQueue<QString>& exp);
-    QString calculate(QString lp , QString op , QString rp);
+    QString calculate(QString l , QString op , QString r);
     bool match(QQueue<QString>& exp);
     bool transform(QQueue<QString>& exp , QQueue<QString>& out);
 public:

@@ -1,6 +1,7 @@
 #include "QCalculatorUI.h"
 #include <QDebug>
 #include <QString>
+#include "QCalculatorDec.h"
 
 QCalculatorUI::QCalculatorUI() : QWidget(NULL,Qt::WindowCloseButtonHint)
 {
@@ -76,6 +77,7 @@ void QCalculatorUI::onButtonClicked()
 {
    QPushButton* btn = (QPushButton*) sender();
    QString ClickedText = btn->text();
+   QCalculatorDec c;
 
    if( ClickedText == "<-" )
    {
@@ -94,7 +96,8 @@ void QCalculatorUI::onButtonClicked()
    }
    else if( ClickedText == "=")
    {
-
+       c.expression(m_lineEdit->text());
+       m_lineEdit->setText(c.expression());
    }
    else
    {

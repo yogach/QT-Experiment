@@ -7,21 +7,7 @@ QCalculatorDec::QCalculatorDec()
     m_exp = "";
     m_result = "";
 
-    QQueue<QString> ret = split("+9.11 + ( -3 - 1 ) * -5 ");
 
-    for(int i = 0; i< ret.length() ; i++)
-    {
-        qDebug() << ret[i];
-    }
-
-    QQueue<QString> out ;
-
-    transform(ret , out);
-
-    for(int i = 0; i< out.length() ; i++)
-    {
-        qDebug() << out[i];
-    }
 }
 
 QCalculatorDec::~QCalculatorDec()
@@ -88,6 +74,21 @@ int QCalculatorDec::priority(QString s)
 bool QCalculatorDec::expression(const QString& exp)
 {
     bool ret = false;
+    QQueue<QString> spExp = split(exp);
+    QQueue<QString> postExp;
+
+    m_exp = exp;
+
+    if( transform(spExp,postExp) )
+    {
+       m_result = calculate(postExp);
+
+       ret = (m_result != "Error");
+    }
+    else
+    {
+       ret = false;
+    }
 
     return ret;
 }
@@ -102,6 +103,7 @@ QString QCalculatorDec::result()
      return "false";
 }
 
+//中缀表达式分离算法
 QQueue<QString> QCalculatorDec::split(const QString& exp)
 {
     QQueue<QString> ret;
@@ -248,18 +250,77 @@ QString QCalculatorDec::calculate(QQueue<QString>& exp)
              QString rp = !stack.isEmpty() ? stack.pop() : "";
              QString lp = !stack.isEmpty() ? stack.pop() : "";
 
-             QString ret = calculate(lp , e , rp);
-
+             QString result = calculate(lp , e , rp);
+             if( result != "Error" )
+             {
+                 stack.push(result);
+             }
+             else
+             {
+                 break;
+             }
 
          }
+         else
+         {
+            break;
+         }
+    }
+
+    //当传入的队列为空 栈中只有一个元素并且是数字时，判断为运算成功
+    if(exp.isEmpty() && isNumber(stack.top()) && ( stack.size() == 1 ))
+    {
+        ret = stack.pop();
     }
 
     return ret;
 }
 
-QString QCalculatorDec::calculate(QString lp , QString op , QString rp)
+QString QCalculatorDec::calculate(QString l , QString op , QString r)
 {
     QString ret = "Error";
+
+    if( (isNumber(l) && isNumber(r) ) )
+    {
+        double lp = l.toDouble();
+        double rp = r.toDouble();
+
+        if( op == "+")
+        {
+            ret.sprintf("%f" , lp + rp);
+        }
+        else if( op == "-")
+        {
+            ret.sprintf("%f" , lp - rp);
+        }
+        else if( op == "*")
+        {
+            ret.sprintf("%f" , lp * rp);
+        }
+        else if( op == "/")
+        {
+            const double p = 0.000000000000001;
+
+            //需要首先判断一下除数是否为0
+            //且因为double类型数无法直接和0比较 所以使用以下方法进行
+            if(( -p < rp ) && ( rp < p))
+            {
+               ret = "Error";
+            }
+            else
+            {
+              ret.sprintf("%f" , lp / rp);
+            }
+        }
+        else
+        {
+          ret = "Error";
+        }
+    }
+    else
+    {
+        ret = "Error";
+    }
 
     return ret;
 }
