@@ -3,8 +3,10 @@
 
 #include <QString>
 #include <QQueue>
+#include "ICalculator.h"
 
-class QCalculatorDec
+//继承接口 必须实现两个接口
+class QCalculatorDec : public ICalculator
 {
 protected:
     QString m_exp;
@@ -26,8 +28,7 @@ protected:
 public:
     QCalculatorDec();
     ~QCalculatorDec();
-    bool expression(const QString& exp);
-    QString expression();
+    bool expression(const QString& exp);    
     QString result();
 };
 

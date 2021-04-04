@@ -1,21 +1,20 @@
 #include <QtGui/QApplication>
-#include "QCalculatorUI.h"
-#include "QCalculatorDec.h"
+#include "QCalculator.h"
 #include <QDebug>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    QCalculatorUI* calUI = QCalculatorUI::NewInstance();
+    QCalculator* cal = QCalculator::NewInstance();
     int ret = -1;
 
-    if(calUI != NULL)
+    if(cal != NULL)
     {
-       calUI->show();
+       cal->show();
 
        ret = a.exec();
 
-       delete calUI;
+       delete cal;
     }
 
     return ret;

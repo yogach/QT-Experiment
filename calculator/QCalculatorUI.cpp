@@ -5,6 +5,7 @@
 
 QCalculatorUI::QCalculatorUI() : QWidget(NULL,Qt::WindowCloseButtonHint)
 {
+    m_cal = NULL;
 }
 
 
@@ -76,8 +77,7 @@ QCalculatorUI* QCalculatorUI::NewInstance()
 void QCalculatorUI::onButtonClicked()
 {
    QPushButton* btn = (QPushButton*) sender();
-   QString ClickedText = btn->text();
-   QCalculatorDec c;
+   QString ClickedText = btn->text();   
 
    if( ClickedText == "<-" )
    {
@@ -96,8 +96,11 @@ void QCalculatorUI::onButtonClicked()
    }
    else if( ClickedText == "=")
    {
-       c.expression(m_lineEdit->text());
-       m_lineEdit->setText(c.expression());
+       if(m_cal != NULL)
+       {
+         m_cal->expression(m_lineEdit->text());
+         m_lineEdit->setText(m_cal->result());
+       }
    }
    else
    {
@@ -112,6 +115,15 @@ void QCalculatorUI::show()
     setFixedSize(width(), height()); //设置主窗口为固定大小
 }
 
+void QCalculatorUI::setCalculator(ICalculator* cal)
+{
+    m_cal = cal;
+}
+
+ICalculator* QCalculatorUI::getCalculator()
+{
+    return m_cal;
+}
 
 QCalculatorUI::~QCalculatorUI()
 {

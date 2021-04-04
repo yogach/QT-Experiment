@@ -93,14 +93,10 @@ bool QCalculatorDec::expression(const QString& exp)
     return ret;
 }
 
-QString QCalculatorDec::expression()
-{
-     return m_result;
-}
 
 QString QCalculatorDec::result()
 {
-     return "false";
+     return m_result;
 }
 
 //中缀表达式分离算法
