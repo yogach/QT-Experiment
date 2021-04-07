@@ -36,6 +36,7 @@ void Dialog::ModalBtn_Clicked()
    //exec代表模态对话框
    dialog.exec();
 
+  // done(Accepted); //用于给exec()提供返回值
    qDebug() << "ModalBtn_Clicked() End";
 }
 
@@ -52,6 +53,7 @@ void Dialog::NormalBtn_Clicked()
    // show代表非模态对话框
    dialog->show();
 
+  // done(Rejected);
    qDebug() << "NormalBtn_Clicked() End";
 }
 
@@ -67,6 +69,7 @@ void Dialog::MixedBtn_Clicked()
    // show代表非模态对话框
    dialog->show();
 
+  // done(100);
    qDebug() << "MixedBtn_Clicked() End";
 }
 
