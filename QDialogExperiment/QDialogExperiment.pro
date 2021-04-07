@@ -10,6 +10,8 @@ TARGET = QDialogExperiment
 TEMPLATE = app
 
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    Dialog.cpp
 
-HEADERS  +=
+HEADERS  += \
+    Dialog.h
