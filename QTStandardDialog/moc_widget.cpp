@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'widget.h'
 **
-** Created: Fri Apr 9 11:18:43 2021
+** Created: Tue Apr 13 14:58:00 2021
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.4)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_Widget[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       4,   14, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -35,6 +35,8 @@ static const uint qt_meta_data_Widget[] = {
       31,    7,    7,    7, 0x08,
       54,    7,    7,    7, 0x08,
       76,    7,    7,    7, 0x08,
+      98,    7,    7,    7, 0x08,
+     123,    7,    7,    7, 0x08,
 
        0        // eod
 };
@@ -42,7 +44,8 @@ static const uint qt_meta_data_Widget[] = {
 static const char qt_meta_stringdata_Widget[] = {
     "Widget\0\0SimpleMsgBtn_Clicked()\0"
     "CustomMsgBtn_Clicked()\0OpenFileBtn_Clicked()\0"
-    "SaveFileBtn_Clicked()\0"
+    "SaveFileBtn_Clicked()\0ColorDialogBtn_Clicked()\0"
+    "InputDialogBtn_Clicked()\0"
 };
 
 const QMetaObject Widget::staticMetaObject = {
@@ -78,9 +81,11 @@ int Widget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 1: CustomMsgBtn_Clicked(); break;
         case 2: OpenFileBtn_Clicked(); break;
         case 3: SaveFileBtn_Clicked(); break;
+        case 4: ColorDialogBtn_Clicked(); break;
+        case 5: InputDialogBtn_Clicked(); break;
         default: ;
         }
-        _id -= 4;
+        _id -= 6;
     }
     return _id;
 }
