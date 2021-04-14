@@ -15,6 +15,10 @@ private:
     QPushButton SaveFileBtn;
     QPushButton ColorDialogBtn;
     QPushButton InputDialogBtn;
+    QPushButton FontDialogBtn;
+    QPushButton ProgressDialogBtn;
+    QPushButton PrintDialogBtn;
+
 
 private slots:
     void SimpleMsgBtn_Clicked();
@@ -23,6 +27,9 @@ private slots:
     void SaveFileBtn_Clicked();
     void ColorDialogBtn_Clicked();
     void InputDialogBtn_Clicked();
+    void FontDialogBtn_Clicked();
+    void PrintDialogBtn_Clicked();
+    void ProgressDialogBtn_Clicked();
     
 public:
     Widget(QWidget *parent = 0);

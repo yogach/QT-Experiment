@@ -4,9 +4,15 @@
 #include <QFileDialog>
 #include <QColorDialog>
 #include <QInputDialog>
+#include <QFontDialog>
+#include <QProgressDialog>
+#include <QPrintDialog>
+#include <QTextDocument>
+#include <QPrinter>
 
 Widget::Widget(QWidget *parent): QWidget(parent) ,
-    SimpleMsgBtn(this)  , CustomMsgBtn(this) , OpenFileBtn(this) , SaveFileBtn(this), ColorDialogBtn(this) ,InputDialogBtn(this)
+    SimpleMsgBtn(this)  , CustomMsgBtn(this) , OpenFileBtn(this) , SaveFileBtn(this), ColorDialogBtn(this) ,InputDialogBtn(this),
+    FontDialogBtn(this) , ProgressDialogBtn(this) , PrintDialogBtn(this)
 {
     SimpleMsgBtn.setText("Simple Message Dialog");
     SimpleMsgBtn.move(20, 20);
@@ -33,6 +39,19 @@ Widget::Widget(QWidget *parent): QWidget(parent) ,
     InputDialogBtn.resize(180, 30);
 
 
+    FontDialogBtn.setText("font Dialog");
+    FontDialogBtn.move(20, 320);
+    FontDialogBtn.resize(180, 30);
+
+    ProgressDialogBtn.setText("progress Dialog");
+    ProgressDialogBtn.move(20, 370);
+    ProgressDialogBtn.resize(180, 30);
+
+    PrintDialogBtn.setText("Print Dialog");
+    PrintDialogBtn.move(20, 420);
+    PrintDialogBtn.resize(180, 30);
+
+
     connect(&SimpleMsgBtn , SIGNAL(clicked()) , this , SLOT(SimpleMsgBtn_Clicked()));
     connect(&CustomMsgBtn , SIGNAL(clicked()) , this , SLOT(CustomMsgBtn_Clicked()));
     connect(&OpenFileBtn , SIGNAL(clicked()) , this , SLOT(OpenFileBtn_Clicked()));
@@ -40,6 +59,11 @@ Widget::Widget(QWidget *parent): QWidget(parent) ,
 
     connect(&ColorDialogBtn , SIGNAL(clicked()) , this , SLOT(ColorDialogBtn_Clicked()));
     connect(&InputDialogBtn , SIGNAL(clicked()) , this , SLOT(InputDialogBtn_Clicked()));
+
+    connect(&FontDialogBtn , SIGNAL(clicked()) , this , SLOT(FontDialogBtn_Clicked()));
+    connect(&ProgressDialogBtn , SIGNAL(clicked()) , this , SLOT(ProgressDialogBtn_Clicked()));
+    connect(&PrintDialogBtn , SIGNAL(clicked()) , this , SLOT(PrintDialogBtn_Clicked()));
+
 
 
 }
@@ -148,6 +172,59 @@ void Widget::InputDialogBtn_Clicked()
        qDebug() << dlg.intValue();
     }
 }
+
+void Widget::FontDialogBtn_Clicked()
+{
+    QFontDialog dlg(this);
+
+   dlg.setWindowTitle("Font Dialog Test");
+   dlg.setCurrentFont(QFont("Courier New", 10, QFont::Bold));
+
+   if(dlg.exec() == QFontDialog::Accepted)
+   {
+     qDebug() << dlg.selectedFont();
+   }
+
+}
+
+void Widget::PrintDialogBtn_Clicked()
+{
+    QPrintDialog dlg(this);
+
+    dlg.setWindowTitle(" QPrintDialog Test");
+
+    if(dlg.exec() == QPrintDialog::Accepted)
+    {
+       //得到选择的打印对象
+       QPrinter * p = dlg.printer();
+       QTextDocument td;
+
+       td.setPlainText("Printer object Test");
+
+       p->setOutputFileName("test.pdf");
+
+       td.print(p);
+
+    }
+
+
+}
+
+void Widget::ProgressDialogBtn_Clicked()
+{
+    QProgressDialog dlg(this);
+
+    dlg.setWindowTitle("QProgress dialog test");
+    dlg.setMinimum(0);
+    dlg.setMaximum(100);
+    dlg.setValue(33.5);
+
+    // create a new thread
+
+    dlg.exec();
+
+}
+
 
 Widget::~Widget()
 {
