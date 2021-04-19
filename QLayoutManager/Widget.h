@@ -16,7 +16,9 @@ private:
     void testVBoxLayout();
     void testHBoxLayout();
     void testVHBoxLayout();
-    
+    void testGridLayout1();
+    void testGridLayout2();
+    void testFormLayout();
 public:
     Widget(QWidget *parent = 0);
     ~Widget();

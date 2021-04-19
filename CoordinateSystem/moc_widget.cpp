@@ -1,15 +1,15 @@
 /****************************************************************************
-** Meta object code from reading C++ file 'Widget.h'
+** Meta object code from reading C++ file 'widget.h'
 **
-** Created: Mon Apr 19 10:56:19 2021
+** Created: Mon Mar 15 14:19:34 2021
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.4)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "Widget.h"
+#include "widget.h"
 #if !defined(Q_MOC_OUTPUT_REVISION)
-#error "The header file 'Widget.h' doesn't include <QObject>."
+#error "The header file 'widget.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 62
 #error "This file was generated using the moc from 4.7.4. It"
 #error "cannot be used with the include files from this version of Qt."
