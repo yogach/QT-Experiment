@@ -3,8 +3,9 @@
 #include <QGridLayout>
 #include <QFormLayout>
 #include <QLineEdit>
+#include <QStackedLayout>
+#include <QtCore>
 
-/*
 Widget::Widget(QWidget *parent) : QWidget(parent),
     TestBtn1(this) ,TestBtn2(this), TestBtn3(this), TestBtn4(this)
 {
@@ -12,13 +13,15 @@ Widget::Widget(QWidget *parent) : QWidget(parent),
     //testHBoxLayout();
     //testVHBoxLayout();
     //testGridLayout2();
-    testFormLayout();
-}*/
+    //testFormLayout();
+    testStackedLayout();
+}
 
+/*
 Widget::Widget(QWidget *parent) : QWidget(parent , Qt::WindowCloseButtonHint)
 {
    testFormLayout();
-}
+}*/
 
 void Widget::testVBoxLayout()
 {
@@ -235,6 +238,61 @@ void Widget::testFormLayout()
     //设置当前使用此布局管理器进行管理
     setLayout(layout);
     setWindowTitle("FTP");
+}
+
+void Widget::testStackedLayout()
+{
+    //栈式布局管理器
+    QStackedLayout* sLayout = new QStackedLayout();
+    QHBoxLayout* hLayout = new QHBoxLayout();
+    QWidget* widget = new QWidget();
+    QTimer* timer = new QTimer();
+
+    TestBtn1.setText("Test Button 1");
+    TestBtn2.setText("Test Button 2");
+    TestBtn3.setText("Test Button 3");
+    TestBtn4.setText("Test Button 4");
+
+    //下面的代码主要目的就是将QHBoxLayout 嵌套入QStackedLauout中
+    TestBtn2.setParent(widget);
+    TestBtn3.setParent(widget);
+
+    hLayout->addWidget(&TestBtn2);
+    hLayout->addWidget(&TestBtn3);
+
+    widget->setLayout(hLayout);
+
+    ////////////////////////////
+
+    sLayout->addWidget(&TestBtn1);
+    sLayout->addWidget(widget);
+    sLayout->addWidget(&TestBtn4);
+
+    sLayout->setCurrentIndex(0);
+
+    //设置当前使用此布局管理器进行管理
+    setLayout(sLayout);
+
+    connect(timer, SIGNAL(timeout()), this, SLOT(timeroutHandler()));
+
+    timer->start(2000); //设置2000ms触发一次
+
+}
+
+void Widget::timeroutHandler()
+{
+    //获得管理组件的layout
+    QStackedLayout* sLayout = dynamic_cast<QStackedLayout*>(layout());
+
+    if( sLayout != NULL)
+    {
+        //循环显示QStackedLayout里面的组件
+        int index = ( sLayout->currentIndex() + 1 ) % sLayout->count();
+
+        sLayout->setCurrentIndex(index);
+
+    }
+
 }
 
 Widget::~Widget()

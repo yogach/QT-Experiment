@@ -19,6 +19,11 @@ private:
     void testGridLayout1();
     void testGridLayout2();
     void testFormLayout();
+    void testStackedLayout();
+
+private slots:
+    void timeroutHandler();
+
 public:
     Widget(QWidget *parent = 0);
     ~Widget();
