@@ -16,8 +16,11 @@ private:
 
     bool construct();
     bool initMenuBar();
-    bool initFileMenu(QMenuBar* mb);
-
+    bool initFileMenu(QMenuBar* mb);    
+    bool initEditMenu(QMenuBar* mb);
+    bool initFormatMenu(QMenuBar* mb);
+    bool initViewMenu(QMenuBar* mb);
+    bool initHelpMenu(QMenuBar* mb);
 
     bool MakeAction(QAction*& action, QString text, int key);
 
