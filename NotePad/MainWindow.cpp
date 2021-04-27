@@ -1,4 +1,6 @@
 #include "MainWindow.h"
+#include <QIcon>
+#include <QSize>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -23,6 +25,7 @@ bool MainWindow::construct()
     bool ret = true;
 
     ret = ret && initMenuBar();
+    ret = ret && initToolBar();
 
 
     return ret;
@@ -334,6 +337,179 @@ bool MainWindow::initHelpMenu(QMenuBar* mb)
     return ret;
 }
 
+bool MainWindow::initToolBar()
+{
+    bool ret = true;
+    //获取主窗口中的menubar
+    QToolBar* tb = addToolBar("Tool Bar");
+
+    tb->setIconSize(QSize(18, 18));
+
+    ret = ret && initFileToolItem(tb);
+    tb->addSeparator();
+
+    ret = ret && initEditToolItem(tb);
+    tb->addSeparator();
+
+    ret = ret && initFormatToolItem(tb);
+    tb->addSeparator();
+
+    ret = ret && initViewToolItem(tb);
+
+    return ret;
+}
+
+bool MainWindow::initFileToolItem(QToolBar* tb)
+{
+    bool ret = true;
+    QAction* action = NULL;
+
+    ret = ret && MakeAction(action, "New", ":/res/pic/new.png");
+
+    if( ret )
+    {
+      tb->addAction(action);
+    }
+
+    ret = ret && MakeAction(action, "Open", ":/res/pic/open.png");
+
+    if( ret )
+    {
+      tb->addAction(action);
+    }
+
+    ret = ret && MakeAction(action, "Save", ":/res/pic/save.png");
+
+    if( ret )
+    {
+       tb->addAction(action);
+    }
+
+    ret = ret && MakeAction(action, "Save As", ":/res/pic/saveas.png");
+
+    if( ret )
+    {
+       tb->addAction(action);
+    }
+
+    ret = ret && MakeAction(action, "Print", ":/res/pic/print.png");
+
+    if( ret )
+    {
+       tb->addAction(action);
+    }
+
+    return ret;
+}
+
+bool MainWindow::initEditToolItem(QToolBar* tb)
+{
+    bool ret = true;
+    QAction* action = NULL;
+
+    ret = ret && MakeAction(action, "Undo", ":/res/pic/undo.png");
+
+    if( ret )
+    {
+        tb->addAction(action);
+    }
+
+    ret = ret && MakeAction(action, "Redo", ":/res/pic/redo.png");
+
+    if( ret )
+    {
+        tb->addAction(action);
+    }
+
+    ret = ret && MakeAction(action, "Cut", ":/res/pic/cut.png");
+
+    if( ret )
+    {
+        tb->addAction(action);
+    }
+
+    ret = ret && MakeAction(action, "Copy", ":/res/pic/copy.png");
+
+    if( ret )
+    {
+        tb->addAction(action);
+    }
+
+    ret = ret && MakeAction(action, "Paste", ":/res/pic/paste.png");
+
+    if( ret )
+    {
+        tb->addAction(action);
+    }
+
+    ret = ret && MakeAction(action, "Find", ":/res/pic/find.png");
+
+    if( ret )
+    {
+        tb->addAction(action);
+    }
+
+    ret = ret && MakeAction(action, "Replace", ":/res/pic/replace.png");
+
+    if( ret )
+    {
+        tb->addAction(action);
+    }
+
+    ret = ret && MakeAction(action, "Goto", ":/res/pic/goto.png");
+
+    if( ret )
+    {
+        tb->addAction(action);
+    }
+
+    return ret;
+}
+
+bool MainWindow::initFormatToolItem(QToolBar* tb)
+{
+    bool ret = true;
+    QAction* action = NULL;
+
+    ret = ret && MakeAction(action, "Auto Wrap", ":/res/pic/wrap.png");
+
+    if( ret )
+    {
+        tb->addAction(action);
+    }
+
+    ret = ret && MakeAction(action, "Font", ":/res/pic/font.png");
+
+    if( ret )
+    {
+        tb->addAction(action);
+    }
+
+    return ret;
+}
+
+bool MainWindow::initViewToolItem(QToolBar* tb)
+{
+    bool ret = true;
+    QAction* action = NULL;
+
+    ret = ret && MakeAction(action, "Tool Bar", ":/res/pic/tool.png");
+
+    if( ret )
+    {
+        tb->addAction(action);
+    }
+
+    ret = ret && MakeAction(action, "Status Bar", ":/res/pic/status.png");
+
+    if( ret )
+    {
+        tb->addAction(action);
+    }
+
+    return ret;
+}
+
 //创建一个action对象，参数为action, action名字，对应快捷键
 bool MainWindow::MakeAction(QAction*& action, QString text, int key)
 {
@@ -344,6 +520,26 @@ bool MainWindow::MakeAction(QAction*& action, QString text, int key)
     if( action != NULL)
     {
        action->setShortcut(key);
+    }
+    else
+    {
+      ret = false;
+    }
+
+    return ret;
+}
+
+//创建一个action对象，参数为action, action名字，资源文件的位置
+bool MainWindow::MakeAction(QAction*& action, QString tip, QString icon)
+{
+    bool ret = true;
+
+    action = new QAction("", NULL);
+
+    if( action != NULL)
+    {
+       action->setToolTip(tip);  //设置标签
+       action->setIcon(QIcon(icon)); //设置资源文件位置
     }
     else
     {
