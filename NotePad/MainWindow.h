@@ -18,6 +18,7 @@ private:
     bool construct();
     bool initMenuBar();
     bool initToolBar();
+    bool initStatusBar();
 
     bool initFileMenu(QMenuBar* mb);    
     bool initEditMenu(QMenuBar* mb);

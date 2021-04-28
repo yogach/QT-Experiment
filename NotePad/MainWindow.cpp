@@ -1,6 +1,8 @@
 #include "MainWindow.h"
 #include <QIcon>
 #include <QSize>
+#include <QStatusBar>
+#include <QLabel>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -26,7 +28,7 @@ bool MainWindow::construct()
 
     ret = ret && initMenuBar();
     ret = ret && initToolBar();
-
+    ret = ret && initStatusBar();
 
     return ret;
 }
@@ -44,6 +46,27 @@ bool MainWindow::initMenuBar()
    ret = ret && initHelpMenu(mb);
 
    return ret;
+}
+
+bool MainWindow::initStatusBar()
+{
+    bool ret = true;
+    QStatusBar* sb = statusBar();
+    QLabel* label = new QLabel("D.T.Software");
+
+    if( label != NULL)
+    {
+        label->setMinimumWidth(200);
+        label->setAlignment(Qt::AlignCenter);
+
+        sb->addPermanentWidget(label);
+    }
+    else
+    {
+       ret = false;
+    }
+
+    return ret;
 }
 
 bool MainWindow::initFileMenu(QMenuBar* mb)
