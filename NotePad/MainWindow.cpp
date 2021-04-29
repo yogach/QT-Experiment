@@ -29,6 +29,7 @@ bool MainWindow::construct()
     ret = ret && initMenuBar();
     ret = ret && initToolBar();
     ret = ret && initStatusBar();
+    ret = ret && initMainEdit();
 
     return ret;
 }
@@ -56,15 +57,32 @@ bool MainWindow::initStatusBar()
 
     if( label != NULL)
     {
+        StatusLabel.setText("Ln: 1    Col: 1");
+        StatusLabel.setMinimumWidth(200);
+        StatusLabel.setAlignment(Qt::AlignCenter);
+
         label->setMinimumWidth(200);
         label->setAlignment(Qt::AlignCenter);
 
+        sb->addPermanentWidget(new QLabel()); //此行代码的作用是在状态栏添加一个分隔符
+        sb->addPermanentWidget(&StatusLabel);
         sb->addPermanentWidget(label);
     }
     else
     {
        ret = false;
     }
+
+    return ret;
+}
+
+bool MainWindow::initMainEdit()
+{
+    bool ret = true;
+
+    mainTextEdit.setParent(this); //设置父组件
+
+    setCentralWidget(&mainTextEdit); //设置maiawindow的中心组件
 
     return ret;
 }

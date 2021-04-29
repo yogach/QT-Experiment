@@ -6,11 +6,17 @@
 #include <QMenuBar>
 #include <QAction>
 #include <QToolBar>
+#include <QPlainTextEdit>
+#include <QLabel>
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+
 private:
+    QPlainTextEdit mainTextEdit;
+    QLabel StatusLabel;
+
     MainWindow(QWidget *parent = 0);
     MainWindow(const MainWindow&);
     MainWindow* operator=(const MainWindow&);
@@ -19,6 +25,7 @@ private:
     bool initMenuBar();
     bool initToolBar();
     bool initStatusBar();
+    bool initMainEdit();
 
     bool initFileMenu(QMenuBar* mb);    
     bool initEditMenu(QMenuBar* mb);

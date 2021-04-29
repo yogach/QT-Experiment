@@ -7,7 +7,6 @@ int main(int argc, char *argv[])
     MainWindow* w = MainWindow::NewInstance();
     int ret = -1;
 
-
     if(w)
     {
       w->show();
