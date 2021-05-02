@@ -89,42 +89,42 @@ bool MainWindow::initMainEdit()
 
 bool MainWindow::initFileMenu(QMenuBar* mb)
 {
-    QMenu* menu = new QMenu("File(&F)"); //新建一个QMenu对象并设置快捷键为F
+    QMenu* menu = new QMenu("File(&F)" , mb); //新建一个QMenu对象并设置快捷键为F , 设置父组件为mb
    bool ret = (menu != NULL);
 
    if( ret )
    {
        QAction* action = NULL;
 
-       ret = ret && MakeAction(action, "New(&N)", Qt::CTRL + Qt::Key_N);
+       ret = ret && MakeAction(action, menu, "New(&N)", Qt::CTRL + Qt::Key_N);
 
        if( ret )
        {
           menu->addAction(action); // add Action item to Menu
        }
 
-       ret = ret && MakeAction(action, "New Window(&W)", Qt::CTRL + Qt::Key_W);
+       ret = ret && MakeAction(action, menu, "New Window(&W)", Qt::CTRL + Qt::Key_W);
 
        if( ret )
        {
           menu->addAction(action);
        }
 
-       ret = ret && MakeAction(action, "Open(&O)...", Qt::CTRL + Qt::Key_O);
+       ret = ret && MakeAction(action, menu, "Open(&O)...", Qt::CTRL + Qt::Key_O);
 
        if( ret )
        {
           menu->addAction(action);
        }
 
-       ret = ret && MakeAction(action, "Save(&S)", Qt::CTRL + Qt::Key_S);
+       ret = ret && MakeAction(action, menu, "Save(&S)", Qt::CTRL + Qt::Key_S);
 
        if( ret )
        {
           menu->addAction(action);
        }
 
-       ret = ret && MakeAction(action, "Save As(&A)...", Qt::CTRL + Qt::SHIFT + Qt::Key_P);
+       ret = ret && MakeAction(action, menu, "Save As(&A)...", Qt::CTRL + Qt::SHIFT + Qt::Key_P);
 
        if( ret )
        {
@@ -133,14 +133,14 @@ bool MainWindow::initFileMenu(QMenuBar* mb)
 
        menu->addSeparator(); //在两个action之间添加一个分隔符
 
-       ret = ret && MakeAction(action, "Page Setting(&U)...", 0);
+       ret = ret && MakeAction(action, menu, "Page Setting(&U)...", 0);
 
        if( ret )
        {
           menu->addAction(action);
        }
 
-       ret = ret && MakeAction(action, "Print(&P)...", Qt::CTRL + Qt::Key_P);
+       ret = ret && MakeAction(action, menu, "Print(&P)...", Qt::CTRL + Qt::Key_P);
 
        if( ret )
        {
@@ -150,7 +150,7 @@ bool MainWindow::initFileMenu(QMenuBar* mb)
 
        menu->addSeparator();
 
-       ret = ret && MakeAction(action, "Exit(&X)", 0);
+       ret = ret && MakeAction(action, menu, "Exit(&X)", 0);
 
        if( ret )
        {
@@ -175,56 +175,56 @@ bool MainWindow::initEditMenu(QMenuBar* mb)
 {
 
 
-    QMenu* menu = new QMenu("Edit(&E)"); //新建一个QMenu对象并设置快捷键为F
+    QMenu* menu = new QMenu("Edit(&E)", mb); //新建一个QMenu对象并设置快捷键为F
     bool ret = (menu != NULL);
 
     if( ret )
     {
       QAction* action = NULL;
 
-      ret = ret && MakeAction(action, "Undo(&U)", Qt::CTRL + Qt::Key_Z);
+      ret = ret && MakeAction(action, menu, "Undo(&U)", Qt::CTRL + Qt::Key_Z);
 
       if( ret )
       {
          menu->addAction(action);
       }
 
-      ret = ret && MakeAction(action, "Redo(&R)...", Qt::CTRL + Qt::Key_Y);
+      ret = ret && MakeAction(action, menu, "Redo(&R)...", Qt::CTRL + Qt::Key_Y);
 
       if( ret )
       {
          menu->addAction(action);
       }
 
-      ret = ret && MakeAction(action, "Cut(&T)", Qt::CTRL + Qt::Key_X);
+      ret = ret && MakeAction(action, menu, "Cut(&T)", Qt::CTRL + Qt::Key_X);
 
       if( ret )
       {
          menu->addAction(action);
       }
 
-      ret = ret && MakeAction(action, "Copy(&C)...", Qt::CTRL + Qt::Key_C);
+      ret = ret && MakeAction(action, menu, "Copy(&C)...", Qt::CTRL + Qt::Key_C);
 
       if( ret )
       {
          menu->addAction(action);
       }
 
-      ret = ret && MakeAction(action, "Paste(&P)...", Qt::CTRL + Qt::Key_V);
+      ret = ret && MakeAction(action, menu, "Paste(&P)...", Qt::CTRL + Qt::Key_V);
 
       if( ret )
       {
          menu->addAction(action);
       }
 
-      ret = ret && MakeAction(action, "Delete(&L)...", Qt::Key_Delete);
+      ret = ret && MakeAction(action, menu, "Delete(&L)...", Qt::Key_Delete);
 
       if( ret )
       {
          menu->addAction(action);
       }
 
-      ret = ret && MakeAction(action, "Find(&F)...", Qt::CTRL + Qt::Key_F);
+      ret = ret && MakeAction(action, menu, "Find(&F)...", Qt::CTRL + Qt::Key_F);
 
       if( ret )
       {
@@ -234,14 +234,14 @@ bool MainWindow::initEditMenu(QMenuBar* mb)
 
       menu->addSeparator();
 
-      ret = ret && MakeAction(action, "Replace(&R)...", Qt::CTRL + Qt::Key_H);
+      ret = ret && MakeAction(action, menu, "Replace(&R)...", Qt::CTRL + Qt::Key_H);
 
       if( ret )
       {
          menu->addAction(action);
       }
 
-      ret = ret && MakeAction(action, "Goto(&G)...", Qt::CTRL + Qt::Key_G);
+      ret = ret && MakeAction(action, menu, "Goto(&G)...", Qt::CTRL + Qt::Key_G);
 
       if( ret )
       {
@@ -250,7 +250,7 @@ bool MainWindow::initEditMenu(QMenuBar* mb)
 
       menu->addSeparator();
 
-      ret = ret && MakeAction(action, "Select All(&A)", Qt::CTRL + Qt::Key_A);
+      ret = ret && MakeAction(action, menu, "Select All(&A)", Qt::CTRL + Qt::Key_A);
 
       if( ret )
       {
@@ -272,21 +272,21 @@ bool MainWindow::initEditMenu(QMenuBar* mb)
 
 bool MainWindow::initFormatMenu(QMenuBar* mb)
 {
-    QMenu* menu = new QMenu("Format(&O)");
+    QMenu* menu = new QMenu("Format(&O)", mb);
     bool ret = (menu != NULL);
 
     if( ret )
     {
         QAction* action = NULL;
 
-        ret = ret && MakeAction(action, "Auto Wrap(&W)", 0);
+        ret = ret && MakeAction(action, menu, "Auto Wrap(&W)", 0);
 
         if( ret )
         {
             menu->addAction(action);
         }
 
-        ret = ret && MakeAction(action, "Font(&F)...", 0);
+        ret = ret && MakeAction(action, menu, "Font(&F)...", 0);
 
         if( ret )
         {
@@ -308,21 +308,21 @@ bool MainWindow::initFormatMenu(QMenuBar* mb)
 
 bool MainWindow::initViewMenu(QMenuBar* mb)
 {
-    QMenu* menu = new QMenu("View(&V)");
+    QMenu* menu = new QMenu("View(&V)", mb);
     bool ret = (menu != NULL);
 
     if( ret )
     {
         QAction* action = NULL;
 
-        ret = ret && MakeAction(action, "Tool Bar(&T)", 0);
+        ret = ret && MakeAction(action, menu, "Tool Bar(&T)", 0);
 
         if( ret )
         {
             menu->addAction(action);
         }
 
-        ret = ret && MakeAction(action, "Status Bar(&S)", 0);
+        ret = ret && MakeAction(action, menu, "Status Bar(&S)", 0);
 
         if( ret )
         {
@@ -344,21 +344,21 @@ bool MainWindow::initViewMenu(QMenuBar* mb)
 
 bool MainWindow::initHelpMenu(QMenuBar* mb)
 {
-    QMenu* menu = new QMenu("Help(&H)");
+    QMenu* menu = new QMenu("Help(&H)", mb);
     bool ret = (menu != NULL);
 
     if( ret )
     {
         QAction* action = NULL;
 
-        ret = ret && MakeAction(action, "User Manual", 0);
+        ret = ret && MakeAction(action, menu, "User Manual", 0);
 
         if( ret )
         {
             menu->addAction(action);
         }
 
-        ret = ret && MakeAction(action, "About NotePad...", 0);
+        ret = ret && MakeAction(action, menu, "About NotePad...", 0);
 
         if( ret )
         {
@@ -405,35 +405,35 @@ bool MainWindow::initFileToolItem(QToolBar* tb)
     bool ret = true;
     QAction* action = NULL;
 
-    ret = ret && MakeAction(action, "New", ":/res/pic/new.png");
+    ret = ret && MakeAction(action, tb, "New", ":/res/pic/new.png");
 
     if( ret )
     {
       tb->addAction(action);
     }
 
-    ret = ret && MakeAction(action, "Open", ":/res/pic/open.png");
+    ret = ret && MakeAction(action, tb,  "Open", ":/res/pic/open.png");
 
     if( ret )
     {
       tb->addAction(action);
     }
 
-    ret = ret && MakeAction(action, "Save", ":/res/pic/save.png");
+    ret = ret && MakeAction(action, tb,  "Save", ":/res/pic/save.png");
 
     if( ret )
     {
        tb->addAction(action);
     }
 
-    ret = ret && MakeAction(action, "Save As", ":/res/pic/saveas.png");
+    ret = ret && MakeAction(action, tb,  "Save As", ":/res/pic/saveas.png");
 
     if( ret )
     {
        tb->addAction(action);
     }
 
-    ret = ret && MakeAction(action, "Print", ":/res/pic/print.png");
+    ret = ret && MakeAction(action, tb,  "Print", ":/res/pic/print.png");
 
     if( ret )
     {
@@ -448,56 +448,56 @@ bool MainWindow::initEditToolItem(QToolBar* tb)
     bool ret = true;
     QAction* action = NULL;
 
-    ret = ret && MakeAction(action, "Undo", ":/res/pic/undo.png");
+    ret = ret && MakeAction(action, tb,  "Undo", ":/res/pic/undo.png");
 
     if( ret )
     {
         tb->addAction(action);
     }
 
-    ret = ret && MakeAction(action, "Redo", ":/res/pic/redo.png");
+    ret = ret && MakeAction(action, tb,  "Redo", ":/res/pic/redo.png");
 
     if( ret )
     {
         tb->addAction(action);
     }
 
-    ret = ret && MakeAction(action, "Cut", ":/res/pic/cut.png");
+    ret = ret && MakeAction(action, tb,  "Cut", ":/res/pic/cut.png");
 
     if( ret )
     {
         tb->addAction(action);
     }
 
-    ret = ret && MakeAction(action, "Copy", ":/res/pic/copy.png");
+    ret = ret && MakeAction(action, tb,  "Copy", ":/res/pic/copy.png");
 
     if( ret )
     {
         tb->addAction(action);
     }
 
-    ret = ret && MakeAction(action, "Paste", ":/res/pic/paste.png");
+    ret = ret && MakeAction(action, tb,  "Paste", ":/res/pic/paste.png");
 
     if( ret )
     {
         tb->addAction(action);
     }
 
-    ret = ret && MakeAction(action, "Find", ":/res/pic/find.png");
+    ret = ret && MakeAction(action, tb,  "Find", ":/res/pic/find.png");
 
     if( ret )
     {
         tb->addAction(action);
     }
 
-    ret = ret && MakeAction(action, "Replace", ":/res/pic/replace.png");
+    ret = ret && MakeAction(action, tb,  "Replace", ":/res/pic/replace.png");
 
     if( ret )
     {
         tb->addAction(action);
     }
 
-    ret = ret && MakeAction(action, "Goto", ":/res/pic/goto.png");
+    ret = ret && MakeAction(action, tb,  "Goto", ":/res/pic/goto.png");
 
     if( ret )
     {
@@ -512,14 +512,14 @@ bool MainWindow::initFormatToolItem(QToolBar* tb)
     bool ret = true;
     QAction* action = NULL;
 
-    ret = ret && MakeAction(action, "Auto Wrap", ":/res/pic/wrap.png");
+    ret = ret && MakeAction(action, tb,  "Auto Wrap", ":/res/pic/wrap.png");
 
     if( ret )
     {
         tb->addAction(action);
     }
 
-    ret = ret && MakeAction(action, "Font", ":/res/pic/font.png");
+    ret = ret && MakeAction(action, tb,  "Font", ":/res/pic/font.png");
 
     if( ret )
     {
@@ -534,14 +534,14 @@ bool MainWindow::initViewToolItem(QToolBar* tb)
     bool ret = true;
     QAction* action = NULL;
 
-    ret = ret && MakeAction(action, "Tool Bar", ":/res/pic/tool.png");
+    ret = ret && MakeAction(action, tb,  "Tool Bar", ":/res/pic/tool.png");
 
     if( ret )
     {
         tb->addAction(action);
     }
 
-    ret = ret && MakeAction(action, "Status Bar", ":/res/pic/status.png");
+    ret = ret && MakeAction(action, tb,  "Status Bar", ":/res/pic/status.png");
 
     if( ret )
     {
@@ -552,11 +552,11 @@ bool MainWindow::initViewToolItem(QToolBar* tb)
 }
 
 //创建一个action对象，参数为action, action名字，对应快捷键
-bool MainWindow::MakeAction(QAction*& action, QString text, int key)
+bool MainWindow::MakeAction(QAction*& action, QWidget* parent, QString text, int key)
 {
     bool ret = true;
 
-    action = new QAction(text, NULL);
+    action = new QAction(text, parent);
 
     if( action != NULL)
     {
@@ -571,11 +571,11 @@ bool MainWindow::MakeAction(QAction*& action, QString text, int key)
 }
 
 //创建一个action对象，参数为action, action名字，资源文件的位置
-bool MainWindow::MakeAction(QAction*& action, QString tip, QString icon)
+bool MainWindow::MakeAction(QAction*& action , QWidget* parent, QString tip, QString icon)
 {
     bool ret = true;
 
-    action = new QAction("", NULL);
+    action = new QAction("", parent);
 
     if( action != NULL)
     {

@@ -38,8 +38,8 @@ private:
     bool initFormatToolItem(QToolBar* tb);
     bool initViewToolItem(QToolBar* tb);
 
-    bool MakeAction(QAction*& action, QString text, int key);
-    bool MakeAction(QAction*& action, QString tip, QString icon);
+    bool MakeAction(QAction*& action, QWidget* parent, QString text, int key);
+    bool MakeAction(QAction*& action, QWidget* parent, QString tip, QString icon);
 
 public:
     static MainWindow* NewInstance();
