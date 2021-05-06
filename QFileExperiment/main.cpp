@@ -70,7 +70,6 @@ void temporary()
     qDebug() << info.isFile();
     qDebug() << info.path();
     qDebug() << info.fileName();
-
 }
 
 
