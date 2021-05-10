@@ -8,6 +8,8 @@
 #include <QToolBar>
 #include <QPlainTextEdit>
 #include <QLabel>
+#include <QFileDialog>
+#include <QFile>
 
 class MainWindow : public QMainWindow
 {
@@ -16,6 +18,7 @@ class MainWindow : public QMainWindow
 private:
     QPlainTextEdit mainTextEdit;
     QLabel StatusLabel;
+    QString m_filepath;
 
     MainWindow(QWidget *parent = 0);
     MainWindow(const MainWindow&);
@@ -40,6 +43,12 @@ private:
 
     bool MakeAction(QAction*& action, QWidget* parent, QString text, int key);
     bool MakeAction(QAction*& action, QWidget* parent, QString tip, QString icon);
+
+    void showErrorMessage(QString message);
+    QString showFileDialog(QFileDialog::AcceptMode mode, QString title);
+
+private slots:
+    void onFileOpen();
 
 public:
     static MainWindow* NewInstance();

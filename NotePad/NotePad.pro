@@ -11,7 +11,8 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        MainWindow.cpp
+    MainWindowSlot.cpp \
+    MainWindowUI.cpp
 
 HEADERS  += MainWindow.h
 

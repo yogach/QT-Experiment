@@ -114,6 +114,7 @@ bool MainWindow::initFileMenu(QMenuBar* mb)
 
        if( ret )
        {
+          connect(action, SIGNAL(triggered()), this, SLOT(onFileOpen()));
           menu->addAction(action);
        }
 
@@ -416,6 +417,7 @@ bool MainWindow::initFileToolItem(QToolBar* tb)
 
     if( ret )
     {
+      connect(action, SIGNAL(triggered()), this, SLOT(onFileOpen()));
       tb->addAction(action);
     }
 
