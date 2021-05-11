@@ -49,6 +49,8 @@ private:
 
 private slots:
     void onFileOpen();
+    void onFileSave();
+    void onFileSaveAs();
 
 public:
     static MainWindow* NewInstance();

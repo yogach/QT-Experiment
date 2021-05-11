@@ -1,5 +1,6 @@
 #include "MainWindow.h"
 #include <QMessageBox>
+#include <QTextStream>
 
 void MainWindow::showErrorMessage(QString message)
 {
@@ -56,10 +57,70 @@ void MainWindow::onFileOpen()
 
              m_filepath = path;
 
+             setWindowTitle("NotePad - [" + m_filepath + "]" );
+
         }
         else
         {
             showErrorMessage(QString("Open file error! \n\n") + "\"" + path + "\"");
+        }
+    }
+}
+
+void MainWindow::onFileSave()
+{
+
+    if( m_filepath == "")
+    {
+      m_filepath = showFileDialog(QFileDialog::AcceptSave, "open");
+    }
+
+    if( m_filepath != "")
+    {
+        QFile file(m_filepath);
+
+        if( file.open( QIODevice::WriteOnly | QIODevice::Text ))
+        {
+            QTextStream out(&file);
+
+            out << mainTextEdit.toPlainText(); //使用辅助类完成数据写入
+
+            file.close();
+
+            setWindowTitle("NotePad - [" + m_filepath + "]" );
+        }
+        else
+        {
+            showErrorMessage(QString("Save file error! \n\n") + "\"" + m_filepath + "\"");
+
+            m_filepath = "";
+        }
+    }
+}
+
+void MainWindow::onFileSaveAs()
+{
+    QString path = showFileDialog(QFileDialog::AcceptSave, "open");
+
+    if( path != "")
+    {
+        QFile file(path);
+
+        if( file.open( QIODevice::WriteOnly | QIODevice::Text ))
+        {
+            QTextStream out(&file);
+
+            out << mainTextEdit.toPlainText(); //使用辅助类完成数据写入
+
+            file.close();
+
+            setWindowTitle("NotePad - [" + m_filepath + "]" );
+        }
+        else
+        {
+            showErrorMessage(QString("Save As file error! \n\n") + "\"" + m_filepath + "\"");
+
+            m_filepath = "";
         }
     }
 }

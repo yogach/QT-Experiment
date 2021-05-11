@@ -114,22 +114,24 @@ bool MainWindow::initFileMenu(QMenuBar* mb)
 
        if( ret )
        {
-          connect(action, SIGNAL(triggered()), this, SLOT(onFileOpen()));
-          menu->addAction(action);
+           connect(action, SIGNAL(triggered()), this, SLOT(onFileOpen()));
+           menu->addAction(action);
        }
 
        ret = ret && MakeAction(action, menu, "Save(&S)", Qt::CTRL + Qt::Key_S);
 
        if( ret )
        {
-          menu->addAction(action);
+           connect(action, SIGNAL(triggered()), this, SLOT(onFileSave()));
+           menu->addAction(action);
        }
 
        ret = ret && MakeAction(action, menu, "Save As(&A)...", Qt::CTRL + Qt::SHIFT + Qt::Key_P);
 
        if( ret )
        {
-          menu->addAction(action);
+           connect(action, SIGNAL(triggered()), this, SLOT(onFileSaveAs()));
+           menu->addAction(action);
        }
 
        menu->addSeparator(); //在两个action之间添加一个分隔符
@@ -138,7 +140,7 @@ bool MainWindow::initFileMenu(QMenuBar* mb)
 
        if( ret )
        {
-          menu->addAction(action);
+           menu->addAction(action);
        }
 
        ret = ret && MakeAction(action, menu, "Print(&P)...", Qt::CTRL + Qt::Key_P);
@@ -417,22 +419,24 @@ bool MainWindow::initFileToolItem(QToolBar* tb)
 
     if( ret )
     {
-      connect(action, SIGNAL(triggered()), this, SLOT(onFileOpen()));
-      tb->addAction(action);
+        connect(action, SIGNAL(triggered()), this, SLOT(onFileOpen()));
+        tb->addAction(action);
     }
 
     ret = ret && MakeAction(action, tb,  "Save", ":/res/pic/save.png");
 
     if( ret )
     {
-       tb->addAction(action);
+        connect(action, SIGNAL(triggered()), this, SLOT(onFileSave()));
+        tb->addAction(action);
     }
 
     ret = ret && MakeAction(action, tb,  "Save As", ":/res/pic/saveas.png");
 
     if( ret )
     {
-       tb->addAction(action);
+        connect(action, SIGNAL(triggered()), this, SLOT(onFileSaveAs()));
+        tb->addAction(action);
     }
 
     ret = ret && MakeAction(action, tb,  "Print", ":/res/pic/print.png");
