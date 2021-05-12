@@ -19,6 +19,7 @@ private:
     QPlainTextEdit mainTextEdit;
     QLabel StatusLabel;
     QString m_filepath;
+    bool m_isTextChanged;
 
     MainWindow(QWidget *parent = 0);
     MainWindow(const MainWindow&);
@@ -45,12 +46,15 @@ private:
     bool MakeAction(QAction*& action, QWidget* parent, QString tip, QString icon);
 
     void showErrorMessage(QString message);
-    QString showFileDialog(QFileDialog::AcceptMode mode, QString title);
+    int showQueueMessage(QString message);
+    QString showFileDialog(QFileDialog::AcceptMode mode, QString title);    
 
+    QString saveCurrentData(QString path);
 private slots:
     void onFileOpen();
     void onFileSave();
     void onFileSaveAs();
+    void onTextChanged();
 
 public:
     static MainWindow* NewInstance();

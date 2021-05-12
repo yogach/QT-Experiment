@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include <QMessageBox>
 #include <QTextStream>
+#include <QDebug>
 
 void MainWindow::showErrorMessage(QString message)
 {
@@ -12,6 +13,19 @@ void MainWindow::showErrorMessage(QString message)
     msg.setStandardButtons(QMessageBox::Ok);
 
     msg.exec(); //显示对话框
+}
+
+int MainWindow::showQueueMessage(QString message)
+{
+    QMessageBox msg;
+
+    msg.setWindowTitle("Queue");
+    msg.setText(message);
+    msg.setIcon(QMessageBox::Question); //设置图标
+    msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+
+    return msg.exec(); //显示对话框
+
 }
 
 QString MainWindow::showFileDialog(QFileDialog::AcceptMode mode, QString title)
@@ -36,6 +50,13 @@ QString MainWindow::showFileDialog(QFileDialog::AcceptMode mode, QString title)
     {
         ret = fd.selectedFiles()[0];
     }
+
+    return ret;
+}
+
+QString MainWindow::saveCurrentData(QString path)
+{
+    QString ret = "";
 
     return ret;
 }
@@ -123,4 +144,9 @@ void MainWindow::onFileSaveAs()
             m_filepath = "";
         }
     }
+}
+
+void MainWindow::onTextChanged()
+{
+    m_isTextChanged = true;
 }

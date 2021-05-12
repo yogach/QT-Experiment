@@ -4,9 +4,12 @@
 #include <QStatusBar>
 #include <QLabel>
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 {
+    setWindowTitle("NotePad - [ New ]" );
+    m_filepath = "";
+    m_isTextChanged = false;
+
 }
 
 MainWindow* MainWindow::NewInstance()
@@ -83,6 +86,8 @@ bool MainWindow::initMainEdit()
     mainTextEdit.setParent(this); //设置父组件
 
     setCentralWidget(&mainTextEdit); //设置maiawindow的中心组件
+
+    connect(&mainTextEdit, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
 
     return ret;
 }
