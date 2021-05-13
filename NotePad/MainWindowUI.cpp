@@ -105,14 +105,8 @@ bool MainWindow::initFileMenu(QMenuBar* mb)
 
        if( ret )
        {
-          menu->addAction(action); // add Action item to Menu
-       }
-
-       ret = ret && MakeAction(action, menu, "New Window(&W)", Qt::CTRL + Qt::Key_W);
-
-       if( ret )
-       {
-          menu->addAction(action);
+           connect(action, SIGNAL(triggered()), this, SLOT(onFileNew()));
+           menu->addAction(action); // add Action item to Menu
        }
 
        ret = ret && MakeAction(action, menu, "Open(&O)...", Qt::CTRL + Qt::Key_O);
@@ -417,7 +411,8 @@ bool MainWindow::initFileToolItem(QToolBar* tb)
 
     if( ret )
     {
-      tb->addAction(action);
+        connect(action, SIGNAL(triggered()), this, SLOT(onFileNew()));
+        tb->addAction(action);
     }
 
     ret = ret && MakeAction(action, tb,  "Open", ":/res/pic/open.png");

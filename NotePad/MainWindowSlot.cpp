@@ -5,7 +5,7 @@
 
 void MainWindow::showErrorMessage(QString message)
 {
-    QMessageBox msg;
+    QMessageBox msg(this);
 
     msg.setWindowTitle("Error");
     msg.setText(message);
@@ -17,7 +17,7 @@ void MainWindow::showErrorMessage(QString message)
 
 int MainWindow::showQueueMessage(QString message)
 {
-    QMessageBox msg;
+    QMessageBox msg(this);
 
     msg.setWindowTitle("Queue");
     msg.setText(message);
@@ -54,74 +54,35 @@ QString MainWindow::showFileDialog(QFileDialog::AcceptMode mode, QString title)
     return ret;
 }
 
+void MainWindow::preEditChange()
+{
+    if( m_isTextChanged )
+    {
+        int r = showQueueMessage("Do you want to save the changes to file?");
+
+        switch(r)
+        {
+          case QMessageBox::Yes:
+            saveCurrentData(m_filepath);
+            break;
+
+          case QMessageBox::No:
+            m_isTextChanged = false;
+            break;
+
+          case QMessageBox::Cancel:
+            break;
+        }
+    }
+}
+
 QString MainWindow::saveCurrentData(QString path)
 {
-    QString ret = "";
-
-    return ret;
-}
-
-void MainWindow::onFileOpen()
-{
-    //得到打开的文件路径
-    QString path = showFileDialog(QFileDialog::AcceptOpen, "open");
-
-    if( path != "")
+    //当传入的路径为空时 需要选择一个文件进行保存
+    if( path == "")
     {
-        QFile file(path);//使用QFile进行操作
-
-        if( file.open(QIODevice::ReadOnly | QIODevice::Text) )
-        {
-             mainTextEdit.setPlainText( QString(file.readAll()));
-
-             file.close();
-
-             m_filepath = path;
-
-             setWindowTitle("NotePad - [" + m_filepath + "]" );
-
-        }
-        else
-        {
-            showErrorMessage(QString("Open file error! \n\n") + "\"" + path + "\"");
-        }
+      path = showFileDialog(QFileDialog::AcceptSave, "open");
     }
-}
-
-void MainWindow::onFileSave()
-{
-
-    if( m_filepath == "")
-    {
-      m_filepath = showFileDialog(QFileDialog::AcceptSave, "open");
-    }
-
-    if( m_filepath != "")
-    {
-        QFile file(m_filepath);
-
-        if( file.open( QIODevice::WriteOnly | QIODevice::Text ))
-        {
-            QTextStream out(&file);
-
-            out << mainTextEdit.toPlainText(); //使用辅助类完成数据写入
-
-            file.close();
-
-            setWindowTitle("NotePad - [" + m_filepath + "]" );
-        }
-        else
-        {
-            showErrorMessage(QString("Save file error! \n\n") + "\"" + m_filepath + "\"");
-
-            m_filepath = "";
-        }
-    }
-}
-
-void MainWindow::onFileSaveAs()
-{
-    QString path = showFileDialog(QFileDialog::AcceptSave, "open");
 
     if( path != "")
     {
@@ -135,18 +96,90 @@ void MainWindow::onFileSaveAs()
 
             file.close();
 
-            setWindowTitle("NotePad - [" + m_filepath + "]" );
+            setWindowTitle("NotePad - [" + path + "]" );
+
+            m_isTextChanged = false;
         }
         else
         {
-            showErrorMessage(QString("Save As file error! \n\n") + "\"" + m_filepath + "\"");
+            showErrorMessage(QString("Save file error! \n\n") + "\"" + path + "\"");
 
-            m_filepath = "";
+            path = "";
         }
     }
+
+    return path;
+}
+
+void MainWindow::onFileNew()
+{
+    preEditChange();
+
+    if( !m_isTextChanged )
+    {
+        setWindowTitle("NotePad - [ New ]");
+        mainTextEdit.clear(); //清除文本编辑框内容
+
+        m_filepath = "";
+
+        m_isTextChanged = false;
+    }
+}
+
+void MainWindow::onFileOpen()
+{
+
+    preEditChange();
+
+    if( !m_isTextChanged)
+    {
+        //得到打开的文件路径
+        QString path = showFileDialog(QFileDialog::AcceptOpen, "open");
+
+        if( path != "")
+        {
+            QFile file(path);//使用QFile进行操作
+
+            if( file.open(QIODevice::ReadOnly | QIODevice::Text) )
+            {
+                 mainTextEdit.setPlainText( QString(file.readAll()));
+
+                 file.close();
+
+                 m_filepath = path;
+
+                 setWindowTitle("NotePad - [" + m_filepath + "]" );
+
+                 m_isTextChanged = false;
+
+            }
+            else
+            {
+                showErrorMessage(QString("Open file error! \n\n") + "\"" + path + "\"");
+            }
+        }
+
+    }
+}
+
+void MainWindow::onFileSave()
+{
+    saveCurrentData(m_filepath);
+
+}
+
+void MainWindow::onFileSaveAs()
+{
+    saveCurrentData();
 }
 
 void MainWindow::onTextChanged()
 {
+    //从没改变到改变时 标题栏加一个*
+    if( !m_isTextChanged )
+    {
+        setWindowTitle("*" + windowTitle());
+    }
+
     m_isTextChanged = true;
 }

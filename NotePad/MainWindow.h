@@ -47,10 +47,11 @@ private:
 
     void showErrorMessage(QString message);
     int showQueueMessage(QString message);
-    QString showFileDialog(QFileDialog::AcceptMode mode, QString title);    
-
-    QString saveCurrentData(QString path);
+    QString showFileDialog(QFileDialog::AcceptMode mode, QString title);
+    QString saveCurrentData(QString path = "");
+    void preEditChange();
 private slots:
+    void onFileNew();
     void onFileOpen();
     void onFileSave();
     void onFileSaveAs();
