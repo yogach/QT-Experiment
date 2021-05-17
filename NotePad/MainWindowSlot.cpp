@@ -2,6 +2,7 @@
 #include <QMessageBox>
 #include <QTextStream>
 #include <QDebug>
+#include <QMap>
 
 void MainWindow::showErrorMessage(QString message)
 {
@@ -33,9 +34,19 @@ QString MainWindow::showFileDialog(QFileDialog::AcceptMode mode, QString title)
     QString ret = "";
     QFileDialog fd(this);
     QStringList filters;
+    QMap<QString, QString> map;
+    const char* filterArray[][2] =
+    {
+       {"Text Files (*.txt)", ".txt"},
+       {"All Files (*)",      "*"   },
+       {NULL, NULL}
+    };
 
-    filters.append("Text Files (*.txt)");
-    filters.append("ALL Files (*)");
+    for(int i=0; filterArray[i][0]!=NULL; i++)
+    {
+        filters.append(filterArray[i][0]) ;
+        map.insert(filterArray[i][0], filterArray[i][1]); //设置键值对
+    }
 
     fd.setWindowTitle(title); //设置窗口标题
     fd.setAcceptMode(mode); //设置打开或关闭方式
@@ -49,6 +60,17 @@ QString MainWindow::showFileDialog(QFileDialog::AcceptMode mode, QString title)
     if( fd.exec() == QFileDialog::Accepted )
     {
         ret = fd.selectedFiles()[0];
+
+        if( mode == QFileDialog::AcceptSave )
+        {
+            QString postfix = map[fd.selectedFilter()]; //根据文件过滤器获取对应后缀名
+
+            //使用endwith判断用户是否手动输入了后缀名
+            if( (postfix != "*") && (!ret.endsWith(postfix)))
+            {
+               ret += postfix;
+            }
+        }
     }
 
     return ret;
