@@ -50,6 +50,8 @@ private:
     QString showFileDialog(QFileDialog::AcceptMode mode, QString title);
     QString saveCurrentData(QString path = "");
     void preEditChange();
+
+    void closeEvent(QCloseEvent* e); //重载父类closeEvent事件
 private slots:
     void onFileNew();
     void onFileOpen();

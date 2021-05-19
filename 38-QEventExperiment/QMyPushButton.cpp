@@ -7,7 +7,7 @@ QMyPushButton::QMyPushButton(QWidget *parent, QButtonListerner* listener) : QPus
     m_listener = listener;
 }
 
-//重载父类中的mouseReleaseEvent
+//重载父类中的mouseReleaseEvent 发生按键事件后会先调用此函数
 void QMyPushButton::mouseReleaseEvent(QMouseEvent *e)
 {
     if( m_listener!=NULL )
@@ -20,6 +20,6 @@ void QMyPushButton::mouseReleaseEvent(QMouseEvent *e)
     }
     else
     {
-      QPushButton::mouseReleaseEvent(e); //调用父类的对象 这样之后会转化成signal传递给slot函数
+      QPushButton::mouseReleaseEvent(e); //调用父类的对象 这样之后按键事件会转化成signal传递给slot函数
     }
 }

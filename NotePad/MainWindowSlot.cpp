@@ -205,3 +205,20 @@ void MainWindow::onTextChanged()
 
     m_isTextChanged = true;
 }
+
+//当点击了关闭按钮后会先调用到此函数
+void MainWindow::closeEvent(QCloseEvent* e)
+{
+    preEditChange();
+
+    //当文本内容未改变时，代表文本框内容已经保存或者已经放弃
+    if( !m_isTextChanged)
+    {
+        QMainWindow::closeEvent(e);
+    }
+    else
+    {
+      e->ignore(); //忽略此次事件
+    }
+
+}
