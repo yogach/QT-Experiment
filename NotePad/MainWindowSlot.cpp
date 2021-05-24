@@ -3,6 +3,15 @@
 #include <QTextStream>
 #include <QDebug>
 #include <QMap>
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QList>
+#include <QFileInfo>
+#include <QUrl>
+#include <QObjectList>
+#include <QMenu>
+#include <QToolBar>
+#include <QAction>
 
 void MainWindow::showErrorMessage(QString message)
 {
@@ -133,6 +142,89 @@ QString MainWindow::saveCurrentData(QString path)
     return path;
 }
 
+void MainWindow::openFileToEdit(QString path)
+{
+    if( path != "")
+    {
+        QFile file(path);//使用QFile进行操作
+
+        if( file.open(QIODevice::ReadOnly | QIODevice::Text) )
+        {
+             mainTextEdit.setPlainText( QString(file.readAll()));
+
+             file.close();
+
+             m_filepath = path;
+
+             setWindowTitle("NotePad - [" + m_filepath + "]" );
+
+             m_isTextChanged = false;
+
+        }
+        else
+        {
+            showErrorMessage(QString("Open file error! \n\n") + "\"" + path + "\"");
+        }
+    }
+
+}
+
+QAction* MainWindow::findMenuBarAction(QString text)
+{
+    QAction* ret = NULL;
+    const QObjectList& list = menuBar()->children();
+
+    for(int i=0; i<list.count(); i++)
+    {
+        QMenu* menu = dynamic_cast<QMenu*>(list[i]);
+
+        if( menu != NULL)
+        {
+            QList<QAction*> actions = menu->actions();
+
+            for(int j=0; j<actions.count(); j++)
+            {
+                if( actions[j]->text().startsWith(text) )
+                {
+                    ret = actions[j];
+                    break;
+                }
+            }
+        }
+    }
+
+    return ret;
+}
+
+QAction* MainWindow::findToolBarAction(QString text)
+{
+
+    QAction* ret = NULL;
+    const QObjectList& list = children();
+
+    for(int i=0; i<list.count(); i++)
+    {
+        QToolBar* toolBar = dynamic_cast<QToolBar*>(list[i]);
+
+        if( toolBar != NULL)
+        {
+            QList<QAction*> actions = toolBar->actions();
+
+            for(int j=0; j<actions.count(); j++)
+            {
+                if( actions[j]->toolTip().startsWith(text) )
+                {
+                    ret = actions[j];
+                    break;
+                }
+            }
+        }
+    }
+
+    return ret;
+}
+
+
 void MainWindow::onFileNew()
 {
     preEditChange();
@@ -158,41 +250,28 @@ void MainWindow::onFileOpen()
         //得到打开的文件路径
         QString path = showFileDialog(QFileDialog::AcceptOpen, "open");
 
-        if( path != "")
-        {
-            QFile file(path);//使用QFile进行操作
-
-            if( file.open(QIODevice::ReadOnly | QIODevice::Text) )
-            {
-                 mainTextEdit.setPlainText( QString(file.readAll()));
-
-                 file.close();
-
-                 m_filepath = path;
-
-                 setWindowTitle("NotePad - [" + m_filepath + "]" );
-
-                 m_isTextChanged = false;
-
-            }
-            else
-            {
-                showErrorMessage(QString("Open file error! \n\n") + "\"" + path + "\"");
-            }
-        }
-
+        openFileToEdit(path);
     }
 }
 
 void MainWindow::onFileSave()
 {
-    saveCurrentData(m_filepath);
+    QString path = saveCurrentData(m_filepath);
 
+    if( path!= "")
+    {
+      m_filepath = path;
+    }
 }
 
 void MainWindow::onFileSaveAs()
 {
-    saveCurrentData();
+    QString path = saveCurrentData();
+
+    if( path!= "")
+    {
+      m_filepath = path;
+    }
 }
 
 void MainWindow::onTextChanged()
@@ -221,4 +300,65 @@ void MainWindow::closeEvent(QCloseEvent* e)
       e->ignore(); //忽略此次事件
     }
 
+}
+
+//重载拖拽事件
+void MainWindow::dragEnterEvent(QDragEnterEvent *e)
+{
+    //如果数据是一个路径
+    if( e->mimeData()->hasUrls() )
+    {
+       e->acceptProposedAction();
+    }
+    else
+    {
+       e->ignore(); //忽略此事件
+    }
+}
+
+//linux内此函数并没有执行 很奇怪
+void MainWindow::dropEvent(QDropEvent *e)
+{
+    //如果数据是一个路径
+    if( e->mimeData()->hasUrls() )
+    {
+        QList<QUrl> list = e->mimeData()->urls();
+        QString path = list[0].toLocalFile(); //每次只获取第一个文件到路径
+        QFileInfo info(path);
+
+        if( info.isFile() )
+        {
+            preEditChange();
+
+            if( !m_isTextChanged )
+              openFileToEdit(path);
+        }
+    }
+    else
+    {
+       e->ignore(); //忽略此事件
+    }
+
+}
+
+//设置界面上当按钮状态
+void MainWindow::onCopyAvailable(bool available)
+{
+    findMenuBarAction("Copy")->setEnabled(available);
+    findMenuBarAction("Cut")->setEnabled(available);
+    findToolBarAction("Copy")->setEnabled(available);
+    findToolBarAction("Cut")->setEnabled(available);
+}
+
+void MainWindow::onRedoAvailable(bool available)
+{
+    findMenuBarAction("Redo")->setEnabled(available);
+    findToolBarAction("Redo")->setEnabled(available);
+
+}
+
+void MainWindow::onUndoAvailable(bool available)
+{
+    findMenuBarAction("Redo")->setEnabled(available);
+    findToolBarAction("Redo")->setEnabled(available);
 }

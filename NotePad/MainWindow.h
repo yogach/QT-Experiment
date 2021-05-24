@@ -50,14 +50,24 @@ private:
     QString showFileDialog(QFileDialog::AcceptMode mode, QString title);
     QString saveCurrentData(QString path = "");
     void preEditChange();
+    void openFileToEdit(QString path);
+    QAction* findMenuBarAction(QString text);
+    QAction* findToolBarAction(QString text);
 
+protected:
     void closeEvent(QCloseEvent* e); //重载父类closeEvent事件
+    void dragEnterEvent(QDragEnterEvent* e);
+    void dropEvent(QDropEvent* e);
+
 private slots:
     void onFileNew();
     void onFileOpen();
     void onFileSave();
     void onFileSaveAs();
     void onTextChanged();
+    void onCopyAvailable(bool available);
+    void onRedoAvailable(bool available);
+    void onUndoAvailable(bool available);
 
 public:
     static MainWindow* NewInstance();

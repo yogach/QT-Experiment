@@ -7,9 +7,11 @@
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 {
     setWindowTitle("NotePad - [ New ]" );
+
+    setAcceptDrops(true); //设置可以接收拖拽事件
+
     m_filepath = "";
     m_isTextChanged = false;
-
 }
 
 MainWindow* MainWindow::NewInstance()
@@ -88,6 +90,11 @@ bool MainWindow::initMainEdit()
     setCentralWidget(&mainTextEdit); //设置maiawindow的中心组件
 
     connect(&mainTextEdit, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
+
+    //连接三个操作允许函数
+    connect(&mainTextEdit, SIGNAL(copyAvailable(bool)), this, SLOT(onCopyAvailable(bool)));
+    connect(&mainTextEdit, SIGNAL(undoAvailable(bool)), this, SLOT(onUndoAvailable(bool)));
+    connect(&mainTextEdit, SIGNAL(redoAvailable(bool)), this, SLOT(onRedoAvailable(bool)));
 
     return ret;
 }
@@ -188,35 +195,45 @@ bool MainWindow::initEditMenu(QMenuBar* mb)
 
       if( ret )
       {
-         menu->addAction(action);
+          action->setEnabled(false);
+          connect(action, SIGNAL(triggered()), &mainTextEdit, SLOT(undo())); //使用plaintedit内的槽函数
+          menu->addAction(action);
       }
 
       ret = ret && MakeAction(action, menu, "Redo(&R)...", Qt::CTRL + Qt::Key_Y);
 
       if( ret )
       {
-         menu->addAction(action);
+          action->setEnabled(false);
+          connect(action, SIGNAL(triggered()), &mainTextEdit, SLOT(redo()));
+          menu->addAction(action);
       }
 
       ret = ret && MakeAction(action, menu, "Cut(&T)", Qt::CTRL + Qt::Key_X);
 
       if( ret )
       {
-         menu->addAction(action);
+          action->setEnabled(false);
+          connect(action, SIGNAL(triggered()), &mainTextEdit, SLOT(cut()));
+          menu->addAction(action);
       }
 
       ret = ret && MakeAction(action, menu, "Copy(&C)...", Qt::CTRL + Qt::Key_C);
 
       if( ret )
       {
-         menu->addAction(action);
+          action->setEnabled(false);
+          connect(action, SIGNAL(triggered()), &mainTextEdit, SLOT(copy()));
+          menu->addAction(action);
       }
 
       ret = ret && MakeAction(action, menu, "Paste(&P)...", Qt::CTRL + Qt::Key_V);
 
       if( ret )
       {
-         menu->addAction(action);
+          action->setEnabled(false);
+          connect(action, SIGNAL(triggered()), &mainTextEdit, SLOT(paste()));
+          menu->addAction(action);
       }
 
       ret = ret && MakeAction(action, menu, "Delete(&L)...", Qt::Key_Delete);
@@ -458,6 +475,8 @@ bool MainWindow::initEditToolItem(QToolBar* tb)
 
     if( ret )
     {
+        action->setEnabled(false);
+        connect(action, SIGNAL(triggered()), &mainTextEdit, SLOT(undo()));
         tb->addAction(action);
     }
 
@@ -465,6 +484,8 @@ bool MainWindow::initEditToolItem(QToolBar* tb)
 
     if( ret )
     {
+        action->setEnabled(false);
+        connect(action, SIGNAL(triggered()), &mainTextEdit, SLOT(redo()));
         tb->addAction(action);
     }
 
@@ -472,6 +493,8 @@ bool MainWindow::initEditToolItem(QToolBar* tb)
 
     if( ret )
     {
+        action->setEnabled(false);
+        connect(action, SIGNAL(triggered()), &mainTextEdit, SLOT(cut()));
         tb->addAction(action);
     }
 
@@ -479,6 +502,8 @@ bool MainWindow::initEditToolItem(QToolBar* tb)
 
     if( ret )
     {
+        action->setEnabled(false);
+        connect(action, SIGNAL(triggered()), &mainTextEdit, SLOT(copy()));
         tb->addAction(action);
     }
 
@@ -486,6 +511,8 @@ bool MainWindow::initEditToolItem(QToolBar* tb)
 
     if( ret )
     {
+        action->setEnabled(false);
+        connect(action, SIGNAL(triggered()), &mainTextEdit, SLOT(paste()));
         tb->addAction(action);
     }
 

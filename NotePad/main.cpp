@@ -8,8 +8,6 @@ int main(int argc, char *argv[])
     MainWindow* w = MainWindow::NewInstance();
     int ret = -1;
 
-    //qDebug() << QString("Open file error! \n\n") + "\""  "\"";
-
     if(w)
     {
       w->show();
