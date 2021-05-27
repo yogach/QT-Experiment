@@ -64,6 +64,7 @@ private slots:
     void onFileOpen();
     void onFileSave();
     void onFileSaveAs();
+    void onFilePrint();
     void onTextChanged();
     void onCopyAvailable(bool available);
     void onRedoAvailable(bool available);

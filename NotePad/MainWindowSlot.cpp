@@ -12,6 +12,8 @@
 #include <QMenu>
 #include <QToolBar>
 #include <QAction>
+#include <QPrintDialog>
+#include <QPrinter>
 
 void MainWindow::showErrorMessage(QString message)
 {
@@ -274,6 +276,21 @@ void MainWindow::onFileSaveAs()
     }
 }
 
+void MainWindow::onFilePrint()
+{
+    QPrintDialog dlg(this);
+
+    dlg.setWindowTitle("Print");
+
+    if( dlg.exec() == QPrintDialog::Accepted )
+    {
+        QPrinter* p = dlg.printer(); //得到所选的打印对象
+
+        mainTextEdit.document()->print(p);
+    }
+
+}
+
 void MainWindow::onTextChanged()
 {
     //从没改变到改变时 标题栏加一个*
@@ -359,6 +376,6 @@ void MainWindow::onRedoAvailable(bool available)
 
 void MainWindow::onUndoAvailable(bool available)
 {
-    findMenuBarAction("Redo")->setEnabled(available);
-    findToolBarAction("Redo")->setEnabled(available);
+    findMenuBarAction("Undo")->setEnabled(available);
+    findToolBarAction("Undo")->setEnabled(available);
 }

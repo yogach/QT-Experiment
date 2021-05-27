@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'MainWindow.h'
 **
-** Created: Mon May 24 10:18:48 2021
+** Created: Thu May 27 09:43:34 2021
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.4)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       8,   14, // methods
+       9,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -36,18 +36,20 @@ static const uint qt_meta_data_MainWindow[] = {
       37,   11,   11,   11, 0x08,
       50,   11,   11,   11, 0x08,
       65,   11,   11,   11, 0x08,
-      91,   81,   11,   11, 0x08,
-     113,   81,   11,   11, 0x08,
-     135,   81,   11,   11, 0x08,
+      79,   11,   11,   11, 0x08,
+     105,   95,   11,   11, 0x08,
+     127,   95,   11,   11, 0x08,
+     149,   95,   11,   11, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_MainWindow[] = {
     "MainWindow\0\0onFileNew()\0onFileOpen()\0"
-    "onFileSave()\0onFileSaveAs()\0onTextChanged()\0"
-    "available\0onCopyAvailable(bool)\0"
-    "onRedoAvailable(bool)\0onUndoAvailable(bool)\0"
+    "onFileSave()\0onFileSaveAs()\0onFilePrint()\0"
+    "onTextChanged()\0available\0"
+    "onCopyAvailable(bool)\0onRedoAvailable(bool)\0"
+    "onUndoAvailable(bool)\0"
 };
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -83,13 +85,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 1: onFileOpen(); break;
         case 2: onFileSave(); break;
         case 3: onFileSaveAs(); break;
-        case 4: onTextChanged(); break;
-        case 5: onCopyAvailable((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 6: onRedoAvailable((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 7: onUndoAvailable((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 4: onFilePrint(); break;
+        case 5: onTextChanged(); break;
+        case 6: onCopyAvailable((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 7: onRedoAvailable((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 8: onUndoAvailable((*reinterpret_cast< bool(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 8;
+        _id -= 9;
     }
     return _id;
 }

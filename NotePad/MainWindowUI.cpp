@@ -4,7 +4,7 @@
 #include <QStatusBar>
 #include <QLabel>
 
-MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     setWindowTitle("NotePad - [ New ]" );
 
@@ -153,7 +153,8 @@ bool MainWindow::initFileMenu(QMenuBar* mb)
 
        if( ret )
        {
-          menu->addAction(action);
+           connect(action, SIGNAL(triggered()), this, SLOT(onFilePrint()));
+           menu->addAction(action);
        }
 
 
@@ -231,7 +232,7 @@ bool MainWindow::initEditMenu(QMenuBar* mb)
 
       if( ret )
       {
-          action->setEnabled(false);
+
           connect(action, SIGNAL(triggered()), &mainTextEdit, SLOT(paste()));
           menu->addAction(action);
       }
@@ -460,7 +461,8 @@ bool MainWindow::initFileToolItem(QToolBar* tb)
 
     if( ret )
     {
-       tb->addAction(action);
+        connect(action, SIGNAL(triggered()), this, SLOT(onFilePrint()));
+        tb->addAction(action);
     }
 
     return ret;
@@ -511,7 +513,7 @@ bool MainWindow::initEditToolItem(QToolBar* tb)
 
     if( ret )
     {
-        action->setEnabled(false);
+
         connect(action, SIGNAL(triggered()), &mainTextEdit, SLOT(paste()));
         tb->addAction(action);
     }
