@@ -302,6 +302,29 @@ void MainWindow::onTextChanged()
     m_isTextChanged = true;
 }
 
+void MainWindow::onCursorPositionChanged()
+{
+    int pos = mainTextEdit.textCursor().position(); //得到当前光标位置
+    QString text = mainTextEdit.toPlainText(); //得到当前文本内容
+    int col = 0, ln = 0, flag = -1;
+
+    for(int i=0; i<pos; i++)
+    {
+        if( text[i] == '\n')
+        {
+          ln++;
+          flag = i;
+        }
+    }
+
+    flag++;
+
+    col = pos - flag;
+
+   StatusLabel.setText("Ln: " + QString::number(ln + 1) + "    Col: " + QString::number(col + 1));
+
+}
+
 //当点击了关闭按钮后会先调用到此函数
 void MainWindow::closeEvent(QCloseEvent* e)
 {

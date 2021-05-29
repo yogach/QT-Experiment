@@ -69,7 +69,7 @@ private slots:
     void onCopyAvailable(bool available);
     void onRedoAvailable(bool available);
     void onUndoAvailable(bool available);
-
+    void onCursorPositionChanged();
 public:
     static MainWindow* NewInstance();
     ~MainWindow();

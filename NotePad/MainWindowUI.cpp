@@ -96,6 +96,8 @@ bool MainWindow::initMainEdit()
     connect(&mainTextEdit, SIGNAL(undoAvailable(bool)), this, SLOT(onUndoAvailable(bool)));
     connect(&mainTextEdit, SIGNAL(redoAvailable(bool)), this, SLOT(onRedoAvailable(bool)));
 
+    //映射光标变动信号
+    connect(&mainTextEdit, SIGNAL(cursorPositionChanged()), this, SLOT(onCursorPositionChanged()));
     return ret;
 }
 
