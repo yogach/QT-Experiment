@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'MainWindow.h'
 **
-** Created: Sat May 29 20:53:20 2021
+** Created: Mon May 31 19:10:50 2021
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.4)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
+      12,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -37,10 +37,12 @@ static const uint qt_meta_data_MainWindow[] = {
       50,   11,   11,   11, 0x08,
       65,   11,   11,   11, 0x08,
       79,   11,   11,   11, 0x08,
-     105,   95,   11,   11, 0x08,
-     127,   95,   11,   11, 0x08,
-     149,   95,   11,   11, 0x08,
-     171,   11,   11,   11, 0x08,
+      92,   11,   11,   11, 0x08,
+     118,  108,   11,   11, 0x08,
+     140,  108,   11,   11, 0x08,
+     162,  108,   11,   11, 0x08,
+     184,   11,   11,   11, 0x08,
+     210,   11,   11,   11, 0x08,
 
        0        // eod
 };
@@ -48,9 +50,10 @@ static const uint qt_meta_data_MainWindow[] = {
 static const char qt_meta_stringdata_MainWindow[] = {
     "MainWindow\0\0onFileNew()\0onFileOpen()\0"
     "onFileSave()\0onFileSaveAs()\0onFilePrint()\0"
-    "onTextChanged()\0available\0"
+    "onFileExit()\0onTextChanged()\0available\0"
     "onCopyAvailable(bool)\0onRedoAvailable(bool)\0"
     "onUndoAvailable(bool)\0onCursorPositionChanged()\0"
+    "onEditDelete()\0"
 };
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -87,14 +90,16 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 2: onFileSave(); break;
         case 3: onFileSaveAs(); break;
         case 4: onFilePrint(); break;
-        case 5: onTextChanged(); break;
-        case 6: onCopyAvailable((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 7: onRedoAvailable((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 8: onUndoAvailable((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 9: onCursorPositionChanged(); break;
+        case 5: onFileExit(); break;
+        case 6: onTextChanged(); break;
+        case 7: onCopyAvailable((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 8: onRedoAvailable((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 9: onUndoAvailable((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 10: onCursorPositionChanged(); break;
+        case 11: onEditDelete(); break;
         default: ;
         }
-        _id -= 10;
+        _id -= 12;
     }
     return _id;
 }

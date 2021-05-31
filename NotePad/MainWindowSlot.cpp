@@ -14,6 +14,9 @@
 #include <QAction>
 #include <QPrintDialog>
 #include <QPrinter>
+#include <QApplication>
+#include <QKeyEvent>
+#include <QEvent>
 
 void MainWindow::showErrorMessage(QString message)
 {
@@ -291,6 +294,11 @@ void MainWindow::onFilePrint()
 
 }
 
+void MainWindow::onFileExit()
+{
+    close();
+}
+
 void MainWindow::onTextChanged()
 {
     //从没改变到改变时 标题栏加一个*
@@ -401,4 +409,18 @@ void MainWindow::onUndoAvailable(bool available)
 {
     findMenuBarAction("Undo")->setEnabled(available);
     findToolBarAction("Undo")->setEnabled(available);
+}
+
+void MainWindow::onEditDelete()
+{
+    //当按下edit中的delete之后 假设有delete按键按下
+
+    //定义Key_Delete按键按下事件 没有其他修饰按键
+    QKeyEvent keypress(QEvent::KeyPress, Qt::Key_Delete, Qt::NoModifier);
+    QKeyEvent keyrelease(QEvent::KeyRelease, Qt::Key_Delete, Qt::NoModifier);
+
+    //发送事件
+    QApplication::sendEvent(&mainTextEdit, &keypress);
+    QApplication::sendEvent(&mainTextEdit, &keyrelease);
+
 }

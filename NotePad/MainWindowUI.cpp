@@ -166,7 +166,8 @@ bool MainWindow::initFileMenu(QMenuBar* mb)
 
        if( ret )
        {
-          menu->addAction(action);
+           connect(action, SIGNAL(triggered()), this, SLOT(onFileExit()));
+           menu->addAction(action);
        }
 
    }
@@ -243,7 +244,8 @@ bool MainWindow::initEditMenu(QMenuBar* mb)
 
       if( ret )
       {
-         menu->addAction(action);
+          connect(action, SIGNAL(triggered()), this, SLOT(onEditDelete()));
+          menu->addAction(action);
       }
 
       ret = ret && MakeAction(action, menu, "Find(&F)...", Qt::CTRL + Qt::Key_F);
