@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'MainWindow.h'
 **
-** Created: Mon May 31 19:10:50 2021
+** Created: Wed Jun 2 14:56:02 2021
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.4)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      12,   14, // methods
+      13,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -43,6 +43,7 @@ static const uint qt_meta_data_MainWindow[] = {
      162,  108,   11,   11, 0x08,
      184,   11,   11,   11, 0x08,
      210,   11,   11,   11, 0x08,
+     225,   11,   11,   11, 0x08,
 
        0        // eod
 };
@@ -53,7 +54,7 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "onFileExit()\0onTextChanged()\0available\0"
     "onCopyAvailable(bool)\0onRedoAvailable(bool)\0"
     "onUndoAvailable(bool)\0onCursorPositionChanged()\0"
-    "onEditDelete()\0"
+    "onEditDelete()\0onEditFind()\0"
 };
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -97,9 +98,10 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 9: onUndoAvailable((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 10: onCursorPositionChanged(); break;
         case 11: onEditDelete(); break;
+        case 12: onEditFind(); break;
         default: ;
         }
-        _id -= 12;
+        _id -= 13;
     }
     return _id;
 }

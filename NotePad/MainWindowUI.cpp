@@ -4,7 +4,7 @@
 #include <QStatusBar>
 #include <QLabel>
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
+MainWindow::MainWindow() : m_pFindDlg(new FindDialog())
 {
     setWindowTitle("NotePad - [ New ]" );
 
@@ -252,7 +252,8 @@ bool MainWindow::initEditMenu(QMenuBar* mb)
 
       if( ret )
       {
-         menu->addAction(action);
+          connect(action, SIGNAL(triggered()), this, SLOT(onEditFind()));
+          menu->addAction(action);
       }
 
 
@@ -526,6 +527,7 @@ bool MainWindow::initEditToolItem(QToolBar* tb)
 
     if( ret )
     {
+        connect(action, SIGNAL(triggered()), this, SLOT(onEditFind()));
         tb->addAction(action);
     }
 

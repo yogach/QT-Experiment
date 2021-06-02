@@ -18,6 +18,7 @@
 #include <QKeyEvent>
 #include <QEvent>
 
+
 void MainWindow::showErrorMessage(QString message)
 {
     QMessageBox msg(this);
@@ -423,4 +424,9 @@ void MainWindow::onEditDelete()
     QApplication::sendEvent(&mainTextEdit, &keypress);
     QApplication::sendEvent(&mainTextEdit, &keyrelease);
 
+}
+
+void MainWindow::onEditFind()
+{
+    m_pFindDlg->show();
 }

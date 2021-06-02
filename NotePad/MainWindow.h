@@ -10,6 +10,8 @@
 #include <QLabel>
 #include <QFileDialog>
 #include <QFile>
+#include <QSharedPointer>
+#include "FindDialog.h"
 
 class MainWindow : public QMainWindow
 {
@@ -20,8 +22,9 @@ private:
     QLabel StatusLabel;
     QString m_filepath;
     bool m_isTextChanged;
+    QSharedPointer<FindDialog> m_pFindDlg;
 
-    MainWindow(QWidget *parent = 0);
+    MainWindow();
     MainWindow(const MainWindow&);
     MainWindow* operator=(const MainWindow&);
 
@@ -72,6 +75,7 @@ private slots:
     void onUndoAvailable(bool available);
     void onCursorPositionChanged();
     void onEditDelete();
+    void onEditFind();
 public:
     static MainWindow* NewInstance();
     ~MainWindow();
