@@ -3,8 +3,9 @@
 #include <QSize>
 #include <QStatusBar>
 #include <QLabel>
+#include <QPalette>
 
-MainWindow::MainWindow() : m_pFindDlg(new FindDialog())
+MainWindow::MainWindow() : m_pFindDlg(new FindDialog(this, &mainTextEdit))
 {
     setWindowTitle("NotePad - [ New ]" );
 
@@ -84,6 +85,13 @@ bool MainWindow::initStatusBar()
 bool MainWindow::initMainEdit()
 {
     bool ret = true;
+    QPalette p = mainTextEdit.palette(); //获取调色板
+
+    //获取激活态的高亮颜色后来设置非激活态的颜色
+    p.setColor(QPalette::Inactive, QPalette::Highlight, p.color(QPalette::Active, QPalette::Highlight));
+    p.setColor(QPalette::Inactive, QPalette::HighlightedText, p.color(QPalette::Active, QPalette::HighlightedText));
+
+    mainTextEdit.setPalette(p);
 
     mainTextEdit.setParent(this); //设置父组件
 
