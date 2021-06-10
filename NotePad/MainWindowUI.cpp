@@ -5,7 +5,9 @@
 #include <QLabel>
 #include <QPalette>
 
-MainWindow::MainWindow() : m_pFindDlg(new FindDialog(this, &mainTextEdit))
+MainWindow::MainWindow() :
+    m_pFindDlg(new FindDialog(this, &mainTextEdit)) ,
+    m_pReplaceDlg(new ReplaceDialog(this, &mainTextEdit))
 {
     setWindowTitle("NotePad - [ New ]" );
 
@@ -271,7 +273,8 @@ bool MainWindow::initEditMenu(QMenuBar* mb)
 
       if( ret )
       {
-         menu->addAction(action);
+          connect(action, SIGNAL(triggered()), this, SLOT(onEditReplace()));
+          menu->addAction(action);
       }
 
       ret = ret && MakeAction(action, menu, "Goto(&G)...", Qt::CTRL + Qt::Key_G);

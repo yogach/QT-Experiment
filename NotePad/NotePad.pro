@@ -13,10 +13,12 @@ TEMPLATE = app
 SOURCES += main.cpp\
     MainWindowSlot.cpp \
     MainWindowUI.cpp \
-    FindDialog.cpp
+    FindDialog.cpp \
+    ReplaceDialog.cpp
 
 HEADERS  += MainWindow.h \
-    FindDialog.h
+    FindDialog.h \
+    ReplaceDialog.h
 
 RESOURCES += \
     Res.qrc
