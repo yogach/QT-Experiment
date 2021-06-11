@@ -17,7 +17,7 @@
 #include <QApplication>
 #include <QKeyEvent>
 #include <QEvent>
-
+#include <QInputDialog>
 
 void MainWindow::showErrorMessage(QString message)
 {
@@ -434,4 +434,36 @@ void MainWindow::onEditFind()
 void MainWindow::onEditReplace()
 {
     m_pReplaceDlg->show();
+}
+
+void MainWindow::onEditGoto()
+{
+    bool ok = false;
+    //创建一个输入对话框
+    int line = QInputDialog::getInt(this, "Goto", "Line : ", 1, 1, mainTextEdit.document()->lineCount(), 1, &ok);
+
+    //如果接收到了输入
+    if( line )
+    {
+        QString text = mainTextEdit.toPlainText();
+        QTextCursor c = mainTextEdit.textCursor();
+        int pos = 0;
+        int index = -1;
+
+        //跳转到第几行 实际上就可以认为是将光标设置到第几个换行符后面
+        for(int i=0; i<line; i++)
+        {
+            pos = index + 1;
+            index = text.indexOf('\n', pos); //从起始位置pos开始查找，返回值为找到的位置
+        }
+
+        //运行完for循环后 pos就是跳转行的位置
+        c.setPosition(pos);
+
+        mainTextEdit.setTextCursor(c);
+
+    }
+
+
+
 }

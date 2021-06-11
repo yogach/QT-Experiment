@@ -79,6 +79,7 @@ private slots:
     void onEditDelete();
     void onEditFind();
     void onEditReplace();
+    void onEditGoto();
 public:
     static MainWindow* NewInstance();
     ~MainWindow();

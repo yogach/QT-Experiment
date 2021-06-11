@@ -38,10 +38,40 @@ void ReplaceDialog::connectSlot()
 
 void ReplaceDialog::onReplaceClicked()
 {
+    QString target = m_findEdit.text();
+    QString to = m_replaceEdit.text();
+
+    if( (m_pText != NULL) && (target != "") && (to != ""))
+    {
+        //得到光标选中的字符串
+        QString seltext = m_pText->textCursor().selectedText();
+
+        if( seltext == target)
+        {
+           m_pText->insertPlainText(to);
+        }
+
+        //如果没有选中的字符串 先执行一次查找
+        onFindClick();
+    }
 
 }
 
 void ReplaceDialog::onReplaceAllClicked()
 {
+    QString target = m_findEdit.text();
+    QString to = m_replaceEdit.text();
 
+    if( (m_pText != NULL) && (target != "") && (to != ""))
+    {
+       QString text = m_pText->toPlainText();
+
+       //直接替换
+       text.replace(target, to, m_matchChkBx.isChecked() ? Qt::CaseSensitive : Qt::CaseInsensitive);
+
+       m_pText->clear();
+
+       m_pText->insertPlainText(text);
+
+    }
 }

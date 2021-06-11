@@ -281,6 +281,7 @@ bool MainWindow::initEditMenu(QMenuBar* mb)
 
       if( ret )
       {
+          connect(action, SIGNAL(triggered()), this, SLOT(onEditGoto()));
           menu->addAction(action);
       }
 
