@@ -356,6 +356,9 @@ bool MainWindow::initViewMenu(QMenuBar* mb)
 
         if( ret )
         {
+            action->setCheckable(true);
+            action->setChecked(true);
+            connect(action, SIGNAL(triggered()), this, SLOT(onViewToolBar()));
             menu->addAction(action);
         }
 
@@ -363,6 +366,9 @@ bool MainWindow::initViewMenu(QMenuBar* mb)
 
         if( ret )
         {
+            action->setCheckable(true);
+            action->setChecked(true);
+            connect(action, SIGNAL(triggered()), this, SLOT(onViewStatusBar()));
             menu->addAction(action);
         }
     }
@@ -399,6 +405,7 @@ bool MainWindow::initHelpMenu(QMenuBar* mb)
 
         if( ret )
         {
+            connect(action, SIGNAL(triggered()), this, SLOT(onHelpAbout()));
             menu->addAction(action);
         }
     }
@@ -591,6 +598,9 @@ bool MainWindow::initViewToolItem(QToolBar* tb)
 
     if( ret )
     {
+        action->setCheckable(true);
+        action->setChecked(true);
+        connect(action, SIGNAL(triggered()), this, SLOT(onViewToolBar()));
         tb->addAction(action);
     }
 
@@ -598,6 +608,9 @@ bool MainWindow::initViewToolItem(QToolBar* tb)
 
     if( ret )
     {
+        action->setCheckable(true);
+        action->setChecked(true);
+        connect(action, SIGNAL(triggered()), this, SLOT(onViewStatusBar()));
         tb->addAction(action);
     }
 

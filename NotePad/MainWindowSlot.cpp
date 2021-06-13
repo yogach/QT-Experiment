@@ -18,6 +18,9 @@
 #include <QKeyEvent>
 #include <QEvent>
 #include <QInputDialog>
+#include <QStatusBar>
+#include <QToolBar>
+#include "AboutDialog.h"
 
 void MainWindow::showErrorMessage(QString message)
 {
@@ -178,16 +181,18 @@ void MainWindow::openFileToEdit(QString path)
 QAction* MainWindow::findMenuBarAction(QString text)
 {
     QAction* ret = NULL;
-    const QObjectList& list = menuBar()->children();
+    const QObjectList& list = menuBar()->children(); //得到menuBar的所有子组件
 
     for(int i=0; i<list.count(); i++)
     {
+        //只有在子组件为QMenu类型时 dynamic_cast才会转化成功
         QMenu* menu = dynamic_cast<QMenu*>(list[i]);
 
         if( menu != NULL)
         {
             QList<QAction*> actions = menu->actions();
 
+            //根据组件的名字进行查找
             for(int j=0; j<actions.count(); j++)
             {
                 if( actions[j]->text().startsWith(text) )
@@ -206,10 +211,11 @@ QAction* MainWindow::findToolBarAction(QString text)
 {
 
     QAction* ret = NULL;
-    const QObjectList& list = children();
+    const QObjectList& list = children(); //得到窗口上到所有子组件
 
     for(int i=0; i<list.count(); i++)
     {
+        //只有在子组件为QToolBar类型时 dynamic_cast才会转化成功
         QToolBar* toolBar = dynamic_cast<QToolBar*>(list[i]);
 
         if( toolBar != NULL)
@@ -463,7 +469,41 @@ void MainWindow::onEditGoto()
         mainTextEdit.setTextCursor(c);
 
     }
+}
 
 
+void MainWindow::onViewToolBar()
+{
+    const QObjectList& list = children();
 
+    for(int i=0; i<list.count(); i++)
+    {
+        //只有在子组件为QToolBar类型时 dynamic_cast才会转化成功
+        QToolBar* toolBar = dynamic_cast<QToolBar*>(list[i]);
+
+        if( toolBar != NULL )
+        {
+            bool visable = toolBar->isVisible();
+
+            toolBar->setVisible(!visable);
+            findMenuBarAction("Tool")->setChecked(!visable);
+            findToolBarAction("Tool")->setChecked(!visable);
+        }
+    }
+}
+
+void MainWindow::onViewStatusBar()
+{
+    QStatusBar* sb = statusBar(); //获取状态栏
+    bool visable = sb->isVisible();
+
+    sb->setVisible(!visable);
+
+    findMenuBarAction("Status")->setChecked(!visable);
+    findToolBarAction("Status")->setChecked(!visable);
+}
+
+void MainWindow::onHelpAbout()
+{
+    AboutDialog().exec();
 }

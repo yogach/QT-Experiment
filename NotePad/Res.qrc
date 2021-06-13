@@ -17,5 +17,6 @@
         <file>pic/find.png</file>
         <file>pic/cut.png</file>
         <file>pic/copy.png</file>
+        <file>pic/dt.png</file>
     </qresource>
 </RCC>

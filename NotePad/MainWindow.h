@@ -80,6 +80,10 @@ private slots:
     void onEditFind();
     void onEditReplace();
     void onEditGoto();
+    void onViewToolBar();
+    void onViewStatusBar();
+    void onHelpAbout();
+
 public:
     static MainWindow* NewInstance();
     ~MainWindow();
