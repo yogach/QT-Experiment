@@ -80,6 +80,8 @@ private slots:
     void onEditFind();
     void onEditReplace();
     void onEditGoto();
+    void onFormatFont();
+    void onFormatWrap();
     void onViewToolBar();
     void onViewStatusBar();
     void onHelpAbout();

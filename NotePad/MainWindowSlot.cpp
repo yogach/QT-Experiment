@@ -21,6 +21,7 @@
 #include <QStatusBar>
 #include <QToolBar>
 #include "AboutDialog.h"
+#include <QFontDialog>
 
 void MainWindow::showErrorMessage(QString message)
 {
@@ -507,3 +508,35 @@ void MainWindow::onHelpAbout()
 {
     AboutDialog().exec();
 }
+
+void MainWindow::onFormatFont()
+{
+    bool ok = false;
+    QFont font = QFontDialog::getFont(&ok, mainTextEdit.font(), this);
+
+    //如果ok为true 代表用户选择了字体格式
+    if( ok )
+    {
+       mainTextEdit.setFont(font);
+    }
+}
+
+void MainWindow::onFormatWrap()
+{
+    //获取当前窗口内的换行状态
+    QPlainTextEdit::LineWrapMode mode = mainTextEdit.lineWrapMode();
+
+    if( mode ==  QPlainTextEdit::NoWrap )
+    {
+       mainTextEdit.setLineWrapMode( QPlainTextEdit::WidgetWidth ); //
+       findMenuBarAction("Auto Wrap")->setChecked(true);
+       findToolBarAction("Auto Wrap")->setChecked(true);
+    }
+    else
+    {
+       mainTextEdit.setLineWrapMode( QPlainTextEdit::NoWrap );
+       findMenuBarAction("Auto Wrap")->setChecked(false);
+       findToolBarAction("Auto Wrap")->setChecked(false);
+    }
+}
+

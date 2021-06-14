@@ -320,6 +320,9 @@ bool MainWindow::initFormatMenu(QMenuBar* mb)
 
         if( ret )
         {
+            action->setCheckable(true);
+            action->setChecked(true);
+            connect(action, SIGNAL(triggered()), this, SLOT(onFormatWrap()));
             menu->addAction(action);
         }
 
@@ -327,6 +330,7 @@ bool MainWindow::initFormatMenu(QMenuBar* mb)
 
         if( ret )
         {
+            connect(action, SIGNAL(triggered()), this, SLOT(onFormatFont()));
             menu->addAction(action);
         }
     }
@@ -576,6 +580,9 @@ bool MainWindow::initFormatToolItem(QToolBar* tb)
 
     if( ret )
     {
+        action->setCheckable(true);
+        action->setChecked(true);
+        connect(action, SIGNAL(triggered()), this, SLOT(onFormatWrap()));
         tb->addAction(action);
     }
 
@@ -583,6 +590,7 @@ bool MainWindow::initFormatToolItem(QToolBar* tb)
 
     if( ret )
     {
+        connect(action, SIGNAL(triggered()), this, SLOT(onFormatFont()));
         tb->addAction(action);
     }
 

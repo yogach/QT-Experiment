@@ -11,11 +11,10 @@ class AboutDialog : public QDialog
     Q_OBJECT
 
     QLabel m_logoLbl;
+    QLabel m_qqGroup;
     QPlainTextEdit m_infoEdit;
     QPushButton m_closeBtn;
 
-protected slots:
-    void onCloseBtnClicked();
 
 public:
     explicit AboutDialog(QWidget *parent = 0);    
