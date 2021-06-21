@@ -402,6 +402,7 @@ bool MainWindow::initHelpMenu(QMenuBar* mb)
 
         if( ret )
         {
+            connect(action, SIGNAL(triggered()), this, SLOT(onHelpManual()));
             menu->addAction(action);
         }
 

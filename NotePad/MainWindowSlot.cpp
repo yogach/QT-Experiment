@@ -22,6 +22,7 @@
 #include <QToolBar>
 #include "AboutDialog.h"
 #include <QFontDialog>
+#include <QDesktopServices>
 
 void MainWindow::showErrorMessage(QString message)
 {
@@ -507,6 +508,11 @@ void MainWindow::onViewStatusBar()
 void MainWindow::onHelpAbout()
 {
     AboutDialog().exec();
+}
+
+void MainWindow::onHelpManual()
+{
+    QDesktopServices::openUrl(QUrl("http://www.dt4sw.com"));
 }
 
 void MainWindow::onFormatFont()

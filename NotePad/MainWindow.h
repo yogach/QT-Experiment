@@ -85,6 +85,7 @@ private slots:
     void onViewToolBar();
     void onViewStatusBar();
     void onHelpAbout();
+    void onHelpManual();
 
 public:
     static MainWindow* NewInstance();
