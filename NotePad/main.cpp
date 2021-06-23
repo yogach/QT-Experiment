@@ -1,6 +1,6 @@
 #include <QtGui/QApplication>
 #include "MainWindow.h"
-#include "QDebug"
+#include <QFileInfo>
 
 int main(int argc, char *argv[])
 {
@@ -8,11 +8,22 @@ int main(int argc, char *argv[])
     MainWindow* w = MainWindow::NewInstance();
     int ret = -1;
 
-    if(w)
+    if( w != NULL )
     {
-      w->show();
 
-      ret = a.exec();
+        if( argc > 1 )
+        {
+            QFileInfo info(argv[1]);
+
+            if( info.exists() )
+            {
+               w->openFile(info.absoluteFilePath());
+            }
+        }
+
+        w->show();
+
+        ret = a.exec();
     }
 
     delete w;

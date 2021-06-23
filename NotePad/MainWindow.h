@@ -89,6 +89,8 @@ private slots:
 
 public:
     static MainWindow* NewInstance();
+    QToolBar* toolBar();
+    void openFile(QString path);
     ~MainWindow();
 };
 

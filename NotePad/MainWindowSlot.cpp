@@ -1,4 +1,5 @@
 #include "MainWindow.h"
+#include "AppConfig.h"
 #include <QMessageBox>
 #include <QTextStream>
 #include <QDebug>
@@ -209,29 +210,21 @@ QAction* MainWindow::findMenuBarAction(QString text)
     return ret;
 }
 
+
+
+
+
 QAction* MainWindow::findToolBarAction(QString text)
 {
-
     QAction* ret = NULL;
-    const QObjectList& list = children(); //得到窗口上到所有子组件
+    QList<QAction*> actions = toolBar()->actions();
 
-    for(int i=0; i<list.count(); i++)
+    for(int j=0; j<actions.count(); j++)
     {
-        //只有在子组件为QToolBar类型时 dynamic_cast才会转化成功
-        QToolBar* toolBar = dynamic_cast<QToolBar*>(list[i]);
-
-        if( toolBar != NULL)
+        if( actions[j]->toolTip().startsWith(text) )
         {
-            QList<QAction*> actions = toolBar->actions();
-
-            for(int j=0; j<actions.count(); j++)
-            {
-                if( actions[j]->toolTip().startsWith(text) )
-                {
-                    ret = actions[j];
-                    break;
-                }
-            }
+            ret = actions[j];
+            break;
         }
     }
 
@@ -266,6 +259,18 @@ void MainWindow::onFileOpen()
 
         openFileToEdit(path);
     }
+}
+
+void MainWindow::openFile(QString path)
+{
+    preEditChange();
+
+    if( !m_isTextChanged)
+    {
+
+        openFileToEdit(path);
+    }
+
 }
 
 void MainWindow::onFileSave()
@@ -350,6 +355,15 @@ void MainWindow::closeEvent(QCloseEvent* e)
     //当文本内容未改变时，代表文本框内容已经保存或者已经放弃
     if( !m_isTextChanged)
     {
+        //获取到参数后 保存到配置文件中
+        QFont font = mainTextEdit.font();
+        bool isWrap = (mainTextEdit.lineWrapMode() == QPlainTextEdit::WidgetWidth);
+        bool tbVisible = toolBar()->isVisible();
+        bool sbVisible = statusBar()->isVisible();
+        AppConfig config(font, pos(), size(), isWrap, tbVisible, sbVisible);
+
+        config.store();
+
         QMainWindow::closeEvent(e);
     }
     else

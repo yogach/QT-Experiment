@@ -4,6 +4,7 @@
 #include <QStatusBar>
 #include <QLabel>
 #include <QPalette>
+#include "AppConfig.h"
 
 MainWindow::MainWindow() :
     m_pFindDlg(new FindDialog(this, &mainTextEdit)) ,
@@ -33,11 +34,44 @@ MainWindow* MainWindow::NewInstance()
 bool MainWindow::construct()
 {
     bool ret = true;
+    AppConfig config;
+
 
     ret = ret && initMenuBar();
     ret = ret && initToolBar();
     ret = ret && initStatusBar();
     ret = ret && initMainEdit();
+
+    //如果读取数据成功
+    if( config.isVaild() )
+    {
+        mainTextEdit.setFont(config.editorFont());
+
+        if( !config.isAutoWrap() )
+        {
+           mainTextEdit.setLineWrapMode(QPlainTextEdit::NoWrap);
+           findMenuBarAction("Auto Wrap")->setChecked(false);
+           findToolBarAction("Auto Wrap")->setChecked(false);
+        }
+
+        if( !config.isToolBarVisible() )
+        {
+           toolBar()->setVisible(false);
+           findMenuBarAction("Tool Bar")->setChecked(false);
+           findToolBarAction("Tool Bar")->setChecked(false);
+        }
+
+        if( !config.isStatusBarVisible() )
+        {
+           statusBar()->setVisible(false);
+           findMenuBarAction("Status Bar")->setChecked(false);
+           findToolBarAction("Status Bar")->setChecked(false);
+        }
+
+        move(config.mainWindowPoint());
+        resize(config.mainWindowSize());
+
+    }
 
     return ret;
 }
@@ -664,6 +698,27 @@ bool MainWindow::MakeAction(QAction*& action , QWidget* parent, QString tip, QSt
 
     return ret;
 }
+
+QToolBar* MainWindow::toolBar()
+{
+    QToolBar* ret = NULL;
+    const QObjectList& list = children(); //得到窗口上到所有子组件
+
+    for(int i=0; i<list.count(); i++)
+    {
+        //只有在子组件为QToolBar类型时 dynamic_cast才会转化成功
+        QToolBar* toolBar = dynamic_cast<QToolBar*>(list[i]);
+
+        if( toolBar != NULL)
+        {
+           ret = toolBar;
+           break;
+        }
+    }
+
+    return ret;
+}
+
 
 MainWindow::~MainWindow()
 {

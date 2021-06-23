@@ -9,9 +9,12 @@ AppConfig::AppConfig(QObject *parent) :
     m_isVaild = restore();
 }
 
-AppConfig::AppConfig(QFont font, bool isWrap, bool tbVisible, bool sbVisble, QObject *parent )
+AppConfig::AppConfig(QFont font, QPoint point, QSize size, bool isWrap, bool tbVisible, bool sbVisble, QObject *parent )
 {
    m_editorFont = font;
+   m_mainWindowPoint = point;
+   m_mainWindowSize = size;
+
    m_isAutoWrap = isWrap;
    m_isToolBarVisible = tbVisible;
    m_isStatusBarVisible = sbVisble;
@@ -31,6 +34,8 @@ bool AppConfig::restore()
         in.setVersion(QDataStream::Qt_4_7);
 
         in >> m_editorFont;
+        in >> m_mainWindowPoint;
+        in >> m_mainWindowSize;
         in >> m_isAutoWrap;
         in >> m_isToolBarVisible;
         in >> m_isStatusBarVisible;
@@ -59,6 +64,8 @@ bool AppConfig::store()
         out.setVersion(QDataStream::Qt_4_7);
 
         out << m_editorFont;
+        out << m_mainWindowPoint;
+        out << m_mainWindowSize;
         out << m_isAutoWrap;
         out << m_isToolBarVisible;
         out << m_isStatusBarVisible;
@@ -78,6 +85,16 @@ bool AppConfig::store()
 QFont AppConfig::editorFont()
 {
     return m_editorFont;
+}
+
+QSize AppConfig::mainWindowSize()
+{
+    return m_mainWindowSize;
+}
+
+QPoint  AppConfig::mainWindowPoint()
+{
+    return m_mainWindowPoint;
 }
 
 bool AppConfig::isAutoWrap()
