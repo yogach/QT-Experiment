@@ -13,8 +13,10 @@ TEMPLATE = app
 SOURCES += main.cpp\
         Widget.cpp \
     DataSource.cpp \
-    ScoreInfo.cpp
+    ScoreInfo.cpp \
+    ScoreInfoModel.cpp
 
 HEADERS  += Widget.h \
     DataSource.h \
-    ScoreInfo.h
+    ScoreInfo.h \
+    ScoreInfoModel.h
