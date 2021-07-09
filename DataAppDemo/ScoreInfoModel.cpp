@@ -40,6 +40,18 @@ bool ScoreInfoModel::add(ScoreInfo info)
     return ret;
 }
 
+bool ScoreInfoModel::add(QList<ScoreInfo> list)
+{
+   bool ret = true;
+
+   for(int i=0; i<list.count(); i++)
+   {
+       ret = ret && add(list[i]);
+   }
+
+   return ret;
+}
+
 bool ScoreInfoModel::remove(int i)
 {
     bool ret = true;
@@ -78,6 +90,11 @@ ScoreInfo ScoreInfoModel::getItem(int i)
 int ScoreInfoModel::count()
 {
    return m_model.rowCount();
+}
+
+void ScoreInfoModel::clear()
+{
+    m_model.clear();
 }
 
 void ScoreInfoModel::setView(QTableView& view)

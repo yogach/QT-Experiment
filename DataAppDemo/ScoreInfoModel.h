@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QStandardItemModel>
 #include <QTableView>
+#include <QList>
 #include "ScoreInfo.h"
 
 class ScoreInfoModel : public QObject
@@ -14,9 +15,11 @@ class ScoreInfoModel : public QObject
 public:
     explicit ScoreInfoModel(QObject *parent = 0);
     bool add(ScoreInfo info);
+    bool add(QList<ScoreInfo> list);
     bool remove(int i);
     ScoreInfo getItem(int i);
     int count();
+    void clear();
     void setView(QTableView& view);
     
 };

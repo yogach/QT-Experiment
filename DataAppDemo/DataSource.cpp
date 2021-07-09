@@ -3,8 +3,7 @@
 #include <QTextStream>
 #include <QStringList>
 
-DataSource::DataSource(QObject *parent) :
-    QObject(parent)
+DataSource::DataSource(QObject *parent) : QObject(parent)
 {
 }
 

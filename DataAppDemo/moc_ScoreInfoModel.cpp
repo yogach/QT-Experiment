@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ScoreInfoModel.h'
 **
-** Created: Thu Jul 8 14:07:01 2021
+** Created: Fri Jul 9 14:31:41 2021
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.4)
 **
 ** WARNING! All changes made in this file will be lost!
