@@ -46,7 +46,8 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
 
 void Widget::onDeleteActionClicked()
 {
-
+    //获取当前的点击行 然后删除
+    m_model.remove(m_view.currentIndex().row());
 }
 
 

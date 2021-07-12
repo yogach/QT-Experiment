@@ -15,6 +15,18 @@ bool ScoreInfoModel::add(ScoreInfo info)
     QStandardItem* item2 = new QStandardItem();
     bool ret = true;
 
+    if( m_model.rowCount() == 0)
+    {
+       QStringList list;
+
+       list.append("ID");
+       list.append("Name");
+       list.append("Score");
+
+       m_model.setHorizontalHeaderLabels(list); //设置模型的标题
+
+    }
+
     if( (root != NULL) && (item0 != NULL) && (item1 != NULL) && (item2 != NULL))
     {
        item0->setData(info.id(), Qt::DisplayRole);
