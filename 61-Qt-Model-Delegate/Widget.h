@@ -5,6 +5,7 @@
 #include <QTableView>
 #include <QStandardItemModel>
 #include <QPushButton>
+#include "SubStyledItemDelegate.h"
 
 class Widget : public QWidget
 {
@@ -13,7 +14,7 @@ class Widget : public QWidget
     QTableView m_view;
     QStandardItemModel m_model;
     QPushButton m_testBtn;
-
+    SubStyledItemDelegate m_delegate;
 
     void initView();
     void initModel();

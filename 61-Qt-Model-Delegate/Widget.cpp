@@ -23,7 +23,7 @@ void Widget::initView()
     m_view.setParent(this);
     m_view.move(10, 10);
     m_view.resize(300, 100);
-
+    m_view.setItemDelegate(&m_delegate);
 }
 
 void Widget::initModel()
@@ -47,7 +47,24 @@ void Widget::initModel()
 
 void Widget::onTestBtnClicked()
 {
+    qDebug() << "Model Data:";
 
+    for(int i=0; i<m_model.rowCount(); i++)
+    {
+        qDebug() << "Row :" << i;
+        for(int j=0; j<m_model.columnCount(); j++)
+        {
+            //从模型中取出数据
+            QModelIndex index = m_model.index(i, j, QModelIndex());
+            QString text = index.data().toString();
+
+            qDebug() << text;
+        }
+
+        qDebug() << endl;
+    }
+
+    qDebug() << "Current View Delegate: " << m_view.itemDelegate(); //打印一个
 }
 
 Widget::~Widget()

@@ -11,6 +11,8 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        Widget.cpp
+        Widget.cpp \
+    SubStyledItemDelegate.cpp
 
-HEADERS  += Widget.h
+HEADERS  += Widget.h \
+    SubStyledItemDelegate.h
