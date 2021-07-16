@@ -5,6 +5,7 @@
 CustomizedItemDelegate::CustomizedItemDelegate(QObject *parent) :
     QItemDelegate(parent)
 {
+    connect(this, SIGNAL(closeEditor(QWidget*)), this, SLOT(onCloseEditor(QWidget*)));
 }
 
 QWidget* CustomizedItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -107,16 +108,14 @@ void CustomizedItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *m
 
 void CustomizedItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    //教程里的这种写法在linux里中并不能解决CheckBox里重影的问题
-   /* if( m_index != index)
+    //当切换到另一个视图项或者关闭编辑框时，开始绘制视图内容
+    if( m_index != index)
     {
        QItemDelegate::paint(painter, option, index);
     }
-    */
-    QItemDelegate::paint(painter, option, index);
 }
 
 void CustomizedItemDelegate::onCloseEditor(QWidget*)
 {
-    m_index = QModelIndex(); //创建一个空的索引
+    m_index = QModelIndex(); //当关闭了委托创建的编辑框时，创建一个空的索引
 }
