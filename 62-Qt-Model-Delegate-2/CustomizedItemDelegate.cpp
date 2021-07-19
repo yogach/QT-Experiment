@@ -1,6 +1,10 @@
 #include "CustomizedItemDelegate.h"
 #include <QCheckBox>
 #include <QComboBox>
+#include <QApplication>
+#include <QEvent>
+#include <QMouseEvent>
+#include <QDebug>
 
 CustomizedItemDelegate::CustomizedItemDelegate(QObject *parent) :
     QItemDelegate(parent)
@@ -109,10 +113,53 @@ void CustomizedItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *m
 void CustomizedItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     //当切换到另一个视图项或者关闭编辑框时，开始绘制视图内容
-    if( m_index != index)
+    /*if( m_index != index)
     {
        QItemDelegate::paint(painter, option, index);
+    }*/
+
+    //当模型的数据类型为bool时，直接显示一个checkbox
+    if( index.data().type() == QVariant::Bool)
+    {
+        bool data = index.data().toBool();
+        QStyleOptionButton checkboxStyle;
+
+        checkboxStyle.state = data ? QStyle::State_On : QStyle::State_Off;
+        checkboxStyle.state |= QStyle::State_Enabled;
+        checkboxStyle.rect = option.rect;
+        checkboxStyle.rect.setX(option.rect.x() + option.rect.width() / 2 - 6);
+
+        QApplication::style()->drawControl(QStyle::CE_CheckBox, &checkboxStyle, painter);
     }
+    else
+    {
+        QItemDelegate::paint(painter, option, index);
+    }
+}
+
+bool CustomizedItemDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
+{
+    bool ret = true;
+
+    if( index.data().type() == QVariant::Bool )
+    {
+        QMouseEvent* mouseEvent = dynamic_cast<QMouseEvent*>(event);
+
+        //当出现鼠标点击事件且位置位于bool型数据框内
+        if( (event->type() == QEvent::MouseButtonPress ) && option.rect.contains(mouseEvent->pos()) )
+        {
+            bool data = index.data().toBool();
+
+            qDebug() << "set model data: " << !data;
+            qDebug() << model->setData(index, !data, Qt::DisplayRole);
+        }
+    }
+    else
+    {
+       ret = QItemDelegate::editorEvent(event, model, option, index);
+    }
+
+    return ret;
 }
 
 void CustomizedItemDelegate::onCloseEditor(QWidget*)
