@@ -12,7 +12,7 @@ protected slots:
     void mySlot(int v)
     {
         qDebug() << "void mySlot(int v)";
-        qDebug() << "Sender:" << sender()->objectName();
+        qDebug() << "Sender:" << sender()->objectName();  //获取信号的发送者
         qDebug() << "Receiver:" << this->objectName();
         qDebug() << "value:" << v;
         qDebug() << endl;

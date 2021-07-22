@@ -11,6 +11,17 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
     initModel();
 
     m_view.setModel(&m_model);
+
+    for(int i=0; i<m_model.columnCount(); i++)
+    {
+        m_view.setColumnWidth(i, 200);
+    }
+
+    //链接定时器的超时信号到槽函数
+    connect(&m_timer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
+
+    m_timer.setParent(this);
+    m_timer.start(500); //设置每500ms唤醒一次
 }
 
 void Widget::initView()
@@ -45,6 +56,18 @@ void Widget::initModel()
     root->setChild(0, 1, itemB1);
     root->setChild(1, 0, itemA2);
     root->setChild(1, 1, itemB2);
+}
+
+void Widget::timerTimeout()
+{
+    QModelIndex i1 = m_model.index(0, 1, QModelIndex());
+    QModelIndex i2 = m_model.index(1, 1, QModelIndex());
+    QVariant v1 = (i1.data().toInt() + 1) % 100;
+    QVariant v2 = (i2.data().toInt() + 3) % 100;
+
+    m_model.setData(i1, v1, Qt::DisplayRole);
+    m_model.setData(i2, v2, Qt::DisplayRole);
+
 }
 
 Widget::~Widget()

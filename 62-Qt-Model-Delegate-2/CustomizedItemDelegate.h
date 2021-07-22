@@ -8,10 +8,6 @@ class CustomizedItemDelegate : public QItemDelegate
 {
     Q_OBJECT
 
-    mutable QModelIndex m_index;
-
-protected slots:
-    void onCloseEditor(QWidget*);
 public:
     explicit CustomizedItemDelegate(QObject *parent = 0);   
     QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;

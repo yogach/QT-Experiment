@@ -14,9 +14,13 @@ class Widget : public QWidget
     QTableView m_view;
     QStandardItemModel m_model;
     CustomizedItemDelegate m_delegate;
+    QTimer m_timer;
 
     void initView();
     void initModel();
+
+private slots:
+    void timerTimeout();
 
 public:
     Widget(QWidget *parent = 0);

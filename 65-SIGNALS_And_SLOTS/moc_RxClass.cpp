@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'RxClass.h'
 **
-** Created: Wed Jul 21 09:48:51 2021
+** Created: Thu Jul 22 09:40:31 2021
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.4)
 **
 ** WARNING! All changes made in this file will be lost!

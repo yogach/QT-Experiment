@@ -9,14 +9,12 @@
 CustomizedItemDelegate::CustomizedItemDelegate(QObject *parent) :
     QItemDelegate(parent)
 {
-    connect(this, SIGNAL(closeEditor(QWidget*)), this, SLOT(onCloseEditor(QWidget*)));
+
 }
 
 QWidget* CustomizedItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    QWidget* ret = NULL;
-
-    m_index = index;
+    QWidget* ret = NULL;    
 
     if( index.data().type() == QVariant::Bool)
     {
@@ -162,7 +160,3 @@ bool CustomizedItemDelegate::editorEvent(QEvent *event, QAbstractItemModel *mode
     return ret;
 }
 
-void CustomizedItemDelegate::onCloseEditor(QWidget*)
-{
-    m_index = QModelIndex(); //当关闭了委托创建的编辑框时，创建一个空的索引
-}

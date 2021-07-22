@@ -61,13 +61,36 @@ void multi_to_one()
 
 }
 
+void signal_to_signal()
+{
+    qDebug() << "void signal_to_signal(void)" << endl;
+
+    TestSignal t1;
+    TestSignal t2;
+    RxClass r;
+
+    //设置对象名字
+    t1.setObjectName("t1");
+    t2.setObjectName("t2");
+    r.setObjectName("r");
+
+    //将t1的信号连接到t2信号上
+    QObject::connect(&t1, SIGNAL(testSignal(int)), &t2, SIGNAL(testSignal(int)));
+    QObject::connect(&t2, SIGNAL(testSignal(int)), &r, SLOT(mySlot(int)));
+
+    t1.send(101); //使用send函数发送信号
+    t2.send(102);
+
+}
+
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
     
     //emit_signal();
     //one_to_multi();
-    multi_to_one();
+    //multi_to_one();
+    signal_to_signal();
 
     return a.exec();
 }
