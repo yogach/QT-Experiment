@@ -111,6 +111,8 @@ void Widget::paintEvent(QPaintEvent *)
         draw(painter, m_list[i]);
     }
 
+    draw(painter, m_current);
+
 }
 
 void Widget::draw(QPainter& painter, DrawParam& param)
