@@ -24,7 +24,7 @@ class Widget : public QWidget
     {
         DrawType type;
         Qt::GlobalColor color;
-        QList<QPoint> points; //用于保存点
+        QList<QPoint> points; //用于保存坐标点
     };
 
 
@@ -40,8 +40,13 @@ class Widget : public QWidget
 
     DrawType drawType();
     Qt::GlobalColor drawColor();
+    void draw(QPainter& painter, DrawParam& param);
 
 protected :
+    void mousePressEvent(QMouseEvent *evt);
+    void mouseMoveEvent(QMouseEvent *evt);
+    void mouseReleaseEvent(QMouseEvent *evt);
+    void paintEvent(QPaintEvent *);
     
 public:
     Widget(QWidget *parent = 0);

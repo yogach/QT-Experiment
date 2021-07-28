@@ -1,4 +1,8 @@
 #include "Widget.h"
+#include <QMouseEvent>
+#include <QPainter>
+#include <QPen>
+#include <QBrush>
 
 Widget::Widget(QWidget *parent) : QWidget(parent)
 {
@@ -39,6 +43,10 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
 
     setFixedSize(width(), 600);
 
+    m_current.color = Qt::white;
+    m_current.type = NONE;
+    m_current.points.clear();
+
 }
 
 Widget::DrawType Widget::drawType()
@@ -64,6 +72,74 @@ Qt::GlobalColor Widget::drawColor()
     if( m_colorBox.currentText() == "Yellow") ret = Qt::yellow;
 
     return ret;
+}
+
+void Widget::mousePressEvent(QMouseEvent *evt)
+{
+     m_current.color = drawColor();
+     m_current.type = drawType();
+
+     m_current.points.append(evt->pos());
+}
+
+void Widget::mouseMoveEvent(QMouseEvent *evt)
+{
+     m_current.points.append(evt->pos());
+
+     update();
+}
+
+void Widget::mouseReleaseEvent(QMouseEvent *evt)
+{
+     m_current.points.append(evt->pos());
+
+     m_list.append(m_current);
+
+     m_current.color = Qt::white;
+     m_current.type = NONE;
+     m_current.points.clear();
+
+     update();
+}
+
+void Widget::paintEvent(QPaintEvent *)
+{
+    QPainter painter(this);
+
+    for(int i=0; i<m_list.count(); i++)
+    {
+        draw(painter, m_list[i]);
+    }
+
+}
+
+void Widget::draw(QPainter& painter, DrawParam& param)
+{
+    if(( param.type != NONE) && (param.points.count() >= 2))
+    {
+        painter.setPen(QPen(param.color));
+        painter.setBrush(QBrush(param.color));
+
+        switch(param.type)
+        {
+        case FREE:
+            for(int i=0; i<param.points.count()-1; i++)
+            {
+                painter.drawLine(param.points[i], param.points[i+1]);
+            }
+
+            break;
+        case LINE:
+            break;
+        case RECT:
+            break;
+        case ELLIPSE:
+            break;
+        default:
+            break;
+        }
+
+    }
 }
 
 Widget::~Widget()
