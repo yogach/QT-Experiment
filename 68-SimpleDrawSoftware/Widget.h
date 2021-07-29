@@ -41,6 +41,7 @@ class Widget : public QWidget
     DrawType drawType();
     Qt::GlobalColor drawColor();
     void draw(QPainter& painter, DrawParam& param);
+    void append(QPoint p);
 
 protected :
     void mousePressEvent(QMouseEvent *evt);

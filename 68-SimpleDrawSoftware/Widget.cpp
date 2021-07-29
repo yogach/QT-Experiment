@@ -84,22 +84,23 @@ void Widget::mousePressEvent(QMouseEvent *evt)
 
 void Widget::mouseMoveEvent(QMouseEvent *evt)
 {
-     m_current.points.append(evt->pos());
 
-     update();
+    append(evt->pos());
+
+    update();
 }
 
 void Widget::mouseReleaseEvent(QMouseEvent *evt)
-{
-     m_current.points.append(evt->pos());
+{    
+    append(evt->pos());
 
-     m_list.append(m_current);
+    m_list.append(m_current);
 
-     m_current.color = Qt::white;
-     m_current.type = NONE;
-     m_current.points.clear();
+    m_current.color = Qt::white;
+    m_current.type = NONE;
+    m_current.points.clear();
 
-     update();
+    update();
 }
 
 void Widget::paintEvent(QPaintEvent *)
@@ -115,10 +116,38 @@ void Widget::paintEvent(QPaintEvent *)
 
 }
 
+void Widget::append(QPoint p)
+{
+    if( m_current.type != NONE)
+    {
+        if( m_current.type == FREE)
+        {
+          m_current.points.append(p);
+        }
+        else
+        {
+            //绘制标准图形只需要两个点 所以在新增点之前删除之前的点
+            if( m_current.points.count() == 2)
+            {
+               m_current.points.removeLast();
+            }
+
+            m_current.points.append(p);
+        }
+
+    }
+}
+
 void Widget::draw(QPainter& painter, DrawParam& param)
 {
     if(( param.type != NONE) && (param.points.count() >= 2))
     {
+        int x = (param.points[0].x() < param.points[1].x() ) ? param.points[0].x() : param.points[1].x();
+        int y = (param.points[0].y() < param.points[1].y() ) ? param.points[0].y() : param.points[1].y();
+        int w = qAbs(param.points[0].x() - param.points[1].x() ) + 1;
+        int h = qAbs(param.points[0].y() - param.points[1].y() ) + 1;
+
+
         painter.setPen(QPen(param.color));
         painter.setBrush(QBrush(param.color));
 
@@ -129,13 +158,16 @@ void Widget::draw(QPainter& painter, DrawParam& param)
             {
                 painter.drawLine(param.points[i], param.points[i+1]);
             }
-
             break;
         case LINE:
+            painter.drawLine(param.points[0], param.points[1]);
+
             break;
         case RECT:
+            painter.drawRect(x, y, w, h);
             break;
         case ELLIPSE:
+            painter.drawEllipse(x, y, w, h);
             break;
         default:
             break;
