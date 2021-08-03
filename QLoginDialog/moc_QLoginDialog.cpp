@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'QLoginDialog.h'
 **
-** Created: Fri Apr 9 11:08:26 2021
+** Created: Tue Aug 3 13:57:54 2021
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.4)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_QLoginDialog[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -33,13 +33,14 @@ static const uint qt_meta_data_QLoginDialog[] = {
  // slots: signature, parameters, type, tag, flags
       14,   13,   13,   13, 0x09,
       33,   13,   13,   13, 0x09,
+      53,   13,   13,   13, 0x09,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_QLoginDialog[] = {
     "QLoginDialog\0\0LoginBtn_Clicked()\0"
-    "CancelBtn_Clicked()\0"
+    "CancelBtn_Clicked()\0onTimerOut()\0"
 };
 
 const QMetaObject QLoginDialog::staticMetaObject = {
@@ -73,9 +74,10 @@ int QLoginDialog::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         switch (_id) {
         case 0: LoginBtn_Clicked(); break;
         case 1: CancelBtn_Clicked(); break;
+        case 2: onTimerOut(); break;
         default: ;
         }
-        _id -= 2;
+        _id -= 3;
     }
     return _id;
 }
