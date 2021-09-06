@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QThread>
 #include "ClientDemo.h"
+#include "ServerDemo.h"
 
 void SyncClientDemo()
 {
@@ -30,13 +31,18 @@ void SyncClientDemo()
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-
+/*
     char buf[20] = "qt test tcp client";
     ClientDemo client;
 
     client.connectTo("172.16.112.219", 8080);
 
     client.send(buf, sizeof(buf) / sizeof(buf[0]));
+*/
+
+    ServerDemo server;
+
+    server.start(8080);
 
     return a.exec();
 }
