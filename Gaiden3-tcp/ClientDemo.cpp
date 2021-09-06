@@ -4,6 +4,10 @@
 
 ClientDemo::ClientDemo(QObject *parent) : QObject(parent)
 {
+    connect(&m_client, SIGNAL(connected()), this, SLOT(onConnected()));
+    connect(&m_client, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
+    connect(&m_client, SIGNAL(readyRead()), this, SLOT(onDataReady()));
+    connect(&m_client, SIGNAL(bytesWritten(qint64)), this, SLOT(onByteWriteen(qint64)));
 
 }
 
