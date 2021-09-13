@@ -1,5 +1,6 @@
 #include <QCoreApplication>
 #include "TextMessage.h"
+#include "TxtMessageAssembler.h"
 #include <QDebug>
 
 int main(int argc, char *argv[])
@@ -11,13 +12,19 @@ int main(int argc, char *argv[])
 
     qDebug() << s;
 
-    TextMessage tmt;
+    TxtMessageAssembler as;
+    QSharedPointer<TextMessage> pt;
 
-    qDebug() << tmt.unserialize(s);
+    pt = as.assembler(s.toStdString().c_str(), s.length());
 
-    qDebug() << tmt.type();
-    qDebug() << tmt.length();
-    qDebug() << tmt.data();
+    if( pt != NULL )
+    {
+        qDebug() << "assemble successfully";
+        qDebug() << pt->type();
+        qDebug() << pt->length();
+        qDebug() << pt->data();
+    }
+
 
     return a.exec();
 }
