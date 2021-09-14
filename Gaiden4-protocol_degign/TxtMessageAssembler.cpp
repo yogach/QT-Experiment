@@ -9,16 +9,16 @@ void TxtMessageAssembler::clear()
 {
     m_type = "";
     m_length = 0;
-    m_date = "";
+    m_data.clear();
 }
 
-QString TxtMessageAssembler::fetch(int n)
+QByteArray TxtMessageAssembler::fetch(int n)
 {
-    QString ret = "";
+    QByteArray ret;
 
     for(int i=0; i<n; i++)
     {
-        ret += m_queue.dequeue();
+        ret.append( m_queue.dequeue() );
     }
 
     return ret;
@@ -61,9 +61,9 @@ bool TxtMessageAssembler::makeTypeAndLength()
     {
         QString len = "";
 
-        m_type = fetch(4); //从队列中取出4个字节数据
+        m_type = QString(fetch(4)); //从队列中取出4个字节数据
 
-        len = fetch(4);
+        len = QString(fetch(4));
 
         m_length = len.trimmed().toInt(&ret, 16); //16代表是16进制数
 
@@ -83,14 +83,14 @@ TextMessage* TxtMessageAssembler::makeMessage()
 
     if( m_type != "")
     {
-        int needed = m_length - m_date.length(); //得到还需要多少长度的数据
+        int needed = m_length - m_data.length(); //得到还需要多少长度的数据
         int n = (needed <= m_queue.length()) ? needed : m_queue.length();
 
-        m_date += fetch(n);
+        m_data.append(fetch(n));
 
-        if( m_length == m_date.length())
+        if( m_length == m_data.length())
         {
-            ret = new TextMessage(m_type, m_date);
+            ret = new TextMessage(m_type, QString(m_data)); //QString可直接将UTF8数据转换成字符串
         }
 
     }

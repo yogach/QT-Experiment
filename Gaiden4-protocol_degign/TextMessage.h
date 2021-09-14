@@ -2,13 +2,14 @@
 #define TEXMESSAGE_H
 
 #include <QObject>
+#include <QByteArray>
 
 class TextMessage : public QObject
 {
     Q_OBJECT
 
     QString m_type;
-    QString m_date;
+    QString m_data;
 
 public:
     explicit TextMessage(QObject *parent = nullptr);
@@ -18,8 +19,8 @@ public:
     int length();
     QString data();
 
-    QString serialize();
-    bool unserialize(QString s);
+    QByteArray serialize();
+    bool unserialize(QByteArray ba);
 
 signals:
 

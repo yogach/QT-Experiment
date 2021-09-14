@@ -5,6 +5,7 @@
 #include <QQueue>
 #include <QSharedPointer>
 #include "TextMessage.h"
+#include <QByteArray>
 
 class TxtMessageAssembler : public QObject
 {
@@ -13,10 +14,10 @@ class TxtMessageAssembler : public QObject
     QQueue<char> m_queue;
     QString m_type;
     int m_length;
-    QString m_date;
+    QByteArray m_data;
 
     void clear();
-    QString fetch(int n);
+    QByteArray fetch(int n);
     bool makeTypeAndLength();
     TextMessage* makeMessage();
 
