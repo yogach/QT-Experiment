@@ -2,29 +2,39 @@
 #include "TextMessage.h"
 #include "TxtMessageAssembler.h"
 #include <QDebug>
+#include "ServerDemo.h"
+#include "ClientDemo.h"
+#include "TxtMsgHandler.h"
+
+class Handler : public TxtMsgHandler
+{
+  public:
+    void handle(QTcpSocket& socket, TextMessage& msg)
+    {
+        qDebug() << &socket;
+        qDebug() << msg.type();
+        qDebug() << msg.length();
+        qDebug() << msg.data();
+    }
+};
+
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
     TextMessage tm("ABcdef", "汉字测试123");
-    QByteArray s = tm.serialize();
+    Handler handler;
 
-    qDebug() << s;
+    ServerDemo server;
+    ClientDemo client;
 
-    TxtMessageAssembler as;
-    QSharedPointer<TextMessage> pt;
+    server.setHandler(&handler);
+    server.start(8890);
 
-    pt = as.assembler(s.data(), s.length());
-
-    if( pt != NULL )
-    {
-        qDebug() << "assemble successfully";
-        qDebug() << pt->type();
-        qDebug() << pt->length();
-        qDebug() << pt->data();
-    }
-
+    client.setHandler(&handler);
+    client.connectTo("127.0.0.1", 8890);
+    client.send(tm);
 
     return a.exec();
 }
