@@ -24,10 +24,12 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
 
     TextMessage tm("ABcdef", "汉字测试123");
+    TextMessage tm1("aaaaaa", "这是汉字测试111111222");
     Handler handler;
 
     ServerDemo server;
     ClientDemo client;
+    ClientDemo client1;
 
     server.setHandler(&handler);
     server.start(8890);
@@ -35,6 +37,10 @@ int main(int argc, char *argv[])
     client.setHandler(&handler);
     client.connectTo("127.0.0.1", 8890);
     client.send(tm);
+
+    client1.setHandler(&handler);
+    client1.connectTo("127.0.0.1", 8890);
+    client1.send(tm1);
 
     return a.exec();
 }

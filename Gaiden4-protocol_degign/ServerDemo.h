@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QTcpServer>
+#include <QMap>
 #include "TextMessage.h"
 #include "TxtMessageAssembler.h"
 #include "TxtMsgHandler.h"
@@ -12,7 +13,7 @@ class ServerDemo : public QObject
     Q_OBJECT
 
     QTcpServer m_server;
-    TxtMessageAssembler m_assembler;
+    QMap<QTcpSocket* ,TxtMessageAssembler* > m_map;
     TxtMsgHandler* m_handler;
 
 public:

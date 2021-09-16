@@ -31,9 +31,12 @@ void ServerDemo::stop()
 
 
 void ServerDemo::onNewConnection()
-{    
-    qDebug() << "onNewConnection" ;
+{        
     QTcpSocket* tcp = m_server.nextPendingConnection(); //得到新连接上的客户端对象
+
+    //每有一个新客户端连接 新建一个对象
+    TxtMessageAssembler* assembler = new TxtMessageAssembler();
+    m_map.insert(tcp, assembler);
 
     connect(tcp, SIGNAL(connected()), this, SLOT(onConnected()));
     connect(tcp, SIGNAL(disconnected()), this, SLOT(onDisconnected()));
@@ -44,19 +47,16 @@ void ServerDemo::onNewConnection()
 
 void ServerDemo::onConnected()
 {
-    QTcpSocket* tcp = dynamic_cast<QTcpSocket*>(sender()); //得到信号的发送者
-
-    if( tcp != NULL)
-    {
-        qDebug() << "onConnected()" ;
-        qDebug() << "Local Address:" << tcp->localAddress();
-        qDebug() << "Local Port:" << tcp->localPort();
-    }
-
 }
 
 void ServerDemo::onDisconnected()
 {
+    QTcpSocket* tcp = dynamic_cast<QTcpSocket*>(sender()); //得到信号的发送者
+
+    if( tcp != NULL)
+    {
+        delete m_map.take(tcp); //得到对应键值对的值 并解除对应关系
+    }
 
 }
 
@@ -67,18 +67,21 @@ void ServerDemo::onDataReady()
 
     int len = 0;
 
-    //如果读出的数据长度不为0
-    while( (len = tcp->read(buf, sizeof(buf) / sizeof(buf[0]))) >0 )
+    //qDebug() << "tcp =" << tcp;
+
+    if( tcp != NULL)
     {
-       QSharedPointer<TextMessage> ptm = m_assembler.assembler(buf, len);
+        TxtMessageAssembler* assembler = m_map.value(tcp);
+        //如果读出的数据长度不为0
+        while( (len = tcp->read(buf, sizeof(buf) / sizeof(buf[0]))) >0 )
+        {
+           QSharedPointer<TextMessage> ptm = assembler->assembler(buf, len);
 
-       if( (ptm != NULL) && (m_handler != NULL))
-       {
-           m_handler->handle(*tcp, *ptm);
-       }
-
-       TextMessage r("fmsr", ptm->data());
-       tcp->write(r.serialize().data(), r.serialize().length());
+           if( (ptm != NULL) && (m_handler != NULL))
+           {
+               m_handler->handle(*tcp, *ptm);
+           }
+        }
     }
 }
 
@@ -106,5 +109,13 @@ ServerDemo::~ServerDemo()
         {
             tcp->close();
         }
+    }
+
+    //析构时释放所有的TxtMessageAssembler
+    const QList<TxtMessageAssembler*>& al = m_map.values();
+
+    for(int i=0; i<al.length(); i++)
+    {
+        delete al.at(i);
     }
 }
