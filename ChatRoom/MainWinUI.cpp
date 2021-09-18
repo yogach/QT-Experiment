@@ -1,7 +1,7 @@
 #include "MainWin.h"
 
 MainWin::MainWin(QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent) , loginDlg(this)
 {
     initInputGrpBx();
     initMsgGrpBx();

@@ -29,6 +29,7 @@ protected:
     void paintEvent(QPaintEvent *);
     QString getCaptcha();
     Qt::GlobalColor* getColor();
+    void showEvent(QShowEvent *);
 
 protected slots:
     void LoginBtn_Clicked();
@@ -39,8 +40,6 @@ public:
     QString getUser();
     QString getPwd();
     ~QLoginDialog();
-
-
 
 };
 

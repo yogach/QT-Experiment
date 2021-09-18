@@ -9,18 +9,18 @@ QLoginDialog::QLoginDialog(QWidget *parent) : QDialog(parent , Qt::WindowCloseBu
     UserEdit(this), PwdEdit(this), CaptEdit(this),
     LoginBtn(this), CancelBtn(this)
 {
-    UserLabel.setText("User ID:");
+    UserLabel.setText("用户名:");
     UserLabel.move(20, 30);
     UserLabel.resize(60, 25);
 
     UserEdit.move(85, 30);
     UserEdit.resize(180, 25);
 
-    PwdLabel.setText("Password:");
+    PwdLabel.setText("密码:");
     PwdLabel.move(20, 65);
     PwdLabel.resize(60,25);
 
-    CaptLabel.setText("Captcha:");
+    CaptLabel.setText("验证码:");
     CaptLabel.move(20, 100);
     CaptLabel.resize(60, 25);
 
@@ -32,15 +32,15 @@ QLoginDialog::QLoginDialog(QWidget *parent) : QDialog(parent , Qt::WindowCloseBu
     PwdEdit.resize(180, 25);
     PwdEdit.setEchoMode(QLineEdit::Password);
 
-    CancelBtn.setText("Cancel");
+    CancelBtn.setText("取消");
     CancelBtn.move(85, 145);
     CancelBtn.resize(85, 30);
 
-    LoginBtn.setText("Login");
+    LoginBtn.setText("登录");
     LoginBtn.move(180, 145);
     LoginBtn.resize(85, 30);
 
-    setWindowTitle("Login");
+    setWindowTitle("登录....");
     setFixedSize(285, 205);
 
     m_timer.setParent(this);
@@ -51,16 +51,12 @@ QLoginDialog::QLoginDialog(QWidget *parent) : QDialog(parent , Qt::WindowCloseBu
 
     qsrand(QTime::currentTime().second() * 1000 + QTime::currentTime().msec() );
 
-    m_captcha = getCaptcha();
-    m_colors = getColor();
 
     m_timer.start(200);
 }
 
 void QLoginDialog::LoginBtn_Clicked()
 {
-    //qDebug() << "LoginBtn_Clicked() Begin";
-
     QString captcha = CaptEdit.text().replace(" ", "");//去除验证码输入框中的空格
 
     m_User = UserEdit.text();
@@ -72,7 +68,7 @@ void QLoginDialog::LoginBtn_Clicked()
 
         if( (m_User == "") || (m_Pwd == ""))
         {
-            QMessageBox().critical(this, "Info", "user name or password is empty");
+            QMessageBox().critical(this, "消息", "用户名和密码不能为空！");
         }
         else
         {
@@ -82,7 +78,7 @@ void QLoginDialog::LoginBtn_Clicked()
     else
     {
         //验证码验证失败后 提示输入错误并重新生成
-        QMessageBox().critical(this, "Error", "Captcha is Error");
+        QMessageBox().critical(this, "错误", "验证码输入错误！");
 
         m_captcha = getCaptcha();
 
@@ -90,15 +86,12 @@ void QLoginDialog::LoginBtn_Clicked()
 
         CaptEdit.selectAll();
     }
-   // qDebug() << "LoginBtn_Clicked() End";
+
 }
 
 void QLoginDialog::CancelBtn_Clicked()
 {
-   // qDebug() << "CancelBtn_Clicked() Begin";
-
     done(Rejected);
-  //  qDebug() << "CancelBtn_Clicked() End";
 }
 
 QString QLoginDialog::getCaptcha()
@@ -127,7 +120,7 @@ Qt::GlobalColor* QLoginDialog::getColor()
     return color;
 }
 
-void QLoginDialog::paintEvent(QPaintEvent *)
+void QLoginDialog::paintEvent(QPaintEvent *evt)
 {
     QPainter painter(this);
 
@@ -148,6 +141,17 @@ void QLoginDialog::paintEvent(QPaintEvent *)
         painter.setPen(m_colors[i]);
         painter.drawText(180 + 20 * i, 100, 20, 24, Qt::AlignCenter, QString(m_captcha[i]));
     }
+
+    QDialog::paintEvent(evt);
+}
+
+void QLoginDialog::showEvent(QShowEvent *evt)
+{
+    //在每次显示出登录框时 更新验证码
+    m_captcha = getCaptcha();
+    m_colors = getColor();
+
+    QDialog::showEvent(evt);
 }
 
 void QLoginDialog::onTimerOut()

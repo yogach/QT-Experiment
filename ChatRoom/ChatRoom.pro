@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -27,8 +27,15 @@ SOURCES += \
         main.cpp \
     MainWinUI.cpp \
     MainWinSlot.cpp \
-    QLoginDialog.cpp
+    QLoginDialog.cpp \
+    ClientDemo.cpp \
+    TextMessage.cpp \
+    TxtMessageAssembler.cpp
 
 HEADERS += \
         MainWin.h \
-    QLoginDialog.h
+    QLoginDialog.h \
+    ClientDemo.h \
+    TextMessage.h \
+    TxtMessageAssembler.h \
+    TxtMsgHandler.h

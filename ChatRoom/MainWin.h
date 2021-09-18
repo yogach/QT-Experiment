@@ -8,6 +8,7 @@
 #include <QLineEdit>
 #include <QLabel>
 #include <QPushButton>
+#include "QLoginDialog.h"
 
 class MainWin : public QWidget
 {
@@ -21,6 +22,7 @@ class MainWin : public QWidget
     QLabel statusLbl;
     QPushButton logInoutBtn;
     QPushButton sendBtn;
+    QLoginDialog loginDlg;
 
     void initMsgGrpBx();
     void initInputGrpBx();
