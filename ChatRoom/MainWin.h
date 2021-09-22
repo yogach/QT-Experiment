@@ -9,8 +9,10 @@
 #include <QLabel>
 #include <QPushButton>
 #include "QLoginDialog.h"
+#include "ClientDemo.h"
+#include "TxtMsgHandler.h"
 
-class MainWin : public QWidget
+class MainWin : public QWidget , public TxtMsgHandler
 {
     Q_OBJECT
 
@@ -24,15 +26,19 @@ class MainWin : public QWidget
     QPushButton sendBtn;
     QLoginDialog loginDlg;
 
+    ClientDemo m_client;
+
     void initMsgGrpBx();
     void initInputGrpBx();
     void connectSlots();
 
+    void setCtrlEnable(bool enabled);
 private slots:
     void sendBtnClicked();
     void logInoutBtnClicked();
 public:
     MainWin(QWidget *parent = 0);
+    void handle(QTcpSocket& obj, TextMessage& msg);
     ~MainWin();
 };
 

@@ -59,8 +59,12 @@ void MainWin::connectSlots()
    connect(&logInoutBtn, SIGNAL(clicked(bool)), this, SLOT(logInoutBtnClicked()));
 }
 
-
-MainWin::~MainWin()
+void MainWin::setCtrlEnable(bool enabled)
 {
-
+    inputEdit.setEnabled(enabled);
+    statusLbl.setText(enabled ? "状态: 连接成功" : "状态: 未登录");
+    logInoutBtn.setText(enabled ? "退出" : "登录");
+    sendBtn.setEnabled(enabled);
 }
+
+
