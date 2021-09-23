@@ -49,8 +49,6 @@ void ServerHandler::LGIN_Handler(QTcpSocket& obj, TextMessage& msg)
         }
     }
 
-    qDebug() << "LGIN_Handler";
-
     if( index == -1 )
     {
         Node* newNode = new Node();

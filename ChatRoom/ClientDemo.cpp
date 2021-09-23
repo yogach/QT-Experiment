@@ -79,6 +79,11 @@ qint64 ClientDemo::available()
     return m_client.bytesAvailable();
 }
 
+bool ClientDemo::isVaild()
+{
+    return m_client.isValid();
+}
+
 void ClientDemo::close()
 {
     m_client.close();

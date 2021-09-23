@@ -8,33 +8,47 @@ void MainWin::initMember()
 
     m_handlerMap.insert("CONN", &MainWin::CONN_Handler);
     m_handlerMap.insert("DSCN", &MainWin::DSCN_Handler);
-    m_handlerMap.insert("LGIN", &MainWin::LIOK_Handler);
+    m_handlerMap.insert("LIOK", &MainWin::LIOK_Handler);
     m_handlerMap.insert("LIER", &MainWin::LIER_Handler);
     m_handlerMap.insert("MSGA", &MainWin::MSGA_Handler);
 }
 
 void MainWin::sendBtnClicked()
 {
+    QString text = inputGrpBx.title() + ":\n" + "   " +  inputEdit.text() + "\n";
+    TextMessage tm("MSGA", text);
 
+    if( m_client.send(tm) )
+    {
+        inputEdit.clear();
+    }
 }
 
 void MainWin::logInoutBtnClicked()
 {
-    if( loginDlg.exec() == QDialog::Accepted )
+    //首先检查client的连接状态
+    if( !m_client.isVaild() )
     {
-        QString usr = loginDlg.getUser().trimmed();
-        QString pwd = loginDlg.getPwd();
-
-        if( m_client.connectTo("127.0.0.1", 8890) )
+        if( loginDlg.exec() == QDialog::Accepted )
         {
-            TextMessage tm("LGIN", usr + "\r" + pwd);
+            QString usr = loginDlg.getUser().trimmed();
+            QString pwd = loginDlg.getPwd();
 
-            m_client.send(tm); //连接上服务器后开始发送用户名密码
+            if( m_client.connectTo("127.0.0.1", 8890) )
+            {
+                TextMessage tm("LGIN", usr + "\r" + pwd);
+
+                m_client.send(tm); //连接上服务器后开始发送用户名密码
+            }
+            else
+            {
+                QMessageBox::critical(this, "失败", "连接不到远程服务端！");
+            }
         }
-        else
-        {
-            QMessageBox::critical(this, "失败", "连接不到远程服务端！");
-        }
+    }
+    else
+    {
+        m_client.close();
     }
 }
 
@@ -57,7 +71,8 @@ void MainWin::CONN_Handler(QTcpSocket&, TextMessage&)
 
 void MainWin::DSCN_Handler(QTcpSocket&, TextMessage&)
 {
-
+    setCtrlEnable(false);
+    inputGrpBx.setTitle("用户名");
 }
 
 void MainWin::LIOK_Handler(QTcpSocket&, TextMessage& msg)
@@ -69,7 +84,9 @@ void MainWin::LIOK_Handler(QTcpSocket&, TextMessage& msg)
 
 void MainWin::LIER_Handler(QTcpSocket&, TextMessage&)
 {
+    QMessageBox::critical(this, "错误", "身份验证失败！");
 
+    m_client.close();
 }
 
 void MainWin::MSGA_Handler(QTcpSocket&, TextMessage&)
@@ -79,5 +96,5 @@ void MainWin::MSGA_Handler(QTcpSocket&, TextMessage&)
 
 MainWin::~MainWin()
 {
-
+   m_client.close();
 }

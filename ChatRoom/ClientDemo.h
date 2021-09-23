@@ -28,6 +28,7 @@ public:
     bool connectTo(QString ip, int port);
     qint64 send(TextMessage& msg);
     qint64 available();
+    bool isVaild();
     void close();
     void setHandler(TxtMsgHandler* handler);
 
