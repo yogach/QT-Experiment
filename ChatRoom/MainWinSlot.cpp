@@ -2,6 +2,16 @@
 #include <QDebug>
 #include <QMessageBox>
 
+void MainWin::initMember()
+{
+    m_client.setHandler(this);
+
+    m_handlerMap.insert("CONN", &MainWin::CONN_Handler);
+    m_handlerMap.insert("DSCN", &MainWin::DSCN_Handler);
+    m_handlerMap.insert("LGIN", &MainWin::LIOK_Handler);
+    m_handlerMap.insert("LIER", &MainWin::LIER_Handler);
+    m_handlerMap.insert("MSGA", &MainWin::MSGA_Handler);
+}
 
 void MainWin::sendBtnClicked()
 {
@@ -30,8 +40,41 @@ void MainWin::logInoutBtnClicked()
 
 void MainWin::handle(QTcpSocket& obj, TextMessage& msg)
 {
-    qDebug() << msg.type();
-    qDebug() << msg.data();
+    //检查是否包含这个键值
+    if( m_handlerMap.contains( msg.type() ))
+    {
+        MSGHandler handler = m_handlerMap.value(msg.type());
+
+        (this->*handler)(obj, msg);
+    }
+
+}
+
+void MainWin::CONN_Handler(QTcpSocket&, TextMessage&)
+{
+
+}
+
+void MainWin::DSCN_Handler(QTcpSocket&, TextMessage&)
+{
+
+}
+
+void MainWin::LIOK_Handler(QTcpSocket&, TextMessage& msg)
+{
+     setCtrlEnable(true);
+
+     inputGrpBx.setTitle(msg.data());
+}
+
+void MainWin::LIER_Handler(QTcpSocket&, TextMessage&)
+{
+
+}
+
+void MainWin::MSGA_Handler(QTcpSocket&, TextMessage&)
+{
+
 }
 
 MainWin::~MainWin()

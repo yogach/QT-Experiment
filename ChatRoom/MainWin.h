@@ -16,6 +16,8 @@ class MainWin : public QWidget , public TxtMsgHandler
 {
     Q_OBJECT
 
+    typedef void (MainWin::*MSGHandler)(QTcpSocket&, TextMessage&); //定义一个指向MainWin内函数的函数指针
+
     QVBoxLayout vMainLayout;
     QGroupBox msgGrpBx;
     QGroupBox inputGrpBx;
@@ -28,11 +30,21 @@ class MainWin : public QWidget , public TxtMsgHandler
 
     ClientDemo m_client;
 
+    QMap<QString, MSGHandler> m_handlerMap;
+
+
     void initMsgGrpBx();
     void initInputGrpBx();
+    void initMember();
     void connectSlots();
 
     void setCtrlEnable(bool enabled);
+    void CONN_Handler(QTcpSocket&, TextMessage&);
+    void DSCN_Handler(QTcpSocket&, TextMessage&);
+    void LIOK_Handler(QTcpSocket&, TextMessage&);
+    void LIER_Handler(QTcpSocket&, TextMessage&);
+    void MSGA_Handler(QTcpSocket&, TextMessage&);
+
 private slots:
     void sendBtnClicked();
     void logInoutBtnClicked();

@@ -6,6 +6,7 @@ MainWin::MainWin(QWidget *parent)
     initInputGrpBx();
     initMsgGrpBx();
     connectSlots();
+    initMember();
 
     vMainLayout.addWidget(&msgGrpBx);
     vMainLayout.addWidget(&inputGrpBx);
