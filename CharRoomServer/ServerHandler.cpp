@@ -25,8 +25,18 @@ void ServerHandler::CONN_Handler(QTcpSocket&, TextMessage&)
 
 }
 
-void ServerHandler::DSCN_Handler(QTcpSocket&, TextMessage&)
+void ServerHandler::DSCN_Handler(QTcpSocket& obj, TextMessage&)
 {
+    for(int i=0; i<m_nodeList.length(); i++)
+    {
+       Node* n = m_nodeList.at(i);
+
+       if( n->socket == &obj)
+       {
+           n->socket = NULL;
+           break;
+       }
+    }
 
 }
 
@@ -87,7 +97,18 @@ void ServerHandler::LGIN_Handler(QTcpSocket& obj, TextMessage& msg)
     obj.write(TextMessage(result, id).serialize());
 }
 
-void ServerHandler::MSGA_Handler(QTcpSocket&, TextMessage&)
+void ServerHandler::MSGA_Handler(QTcpSocket&, TextMessage& msg)
 {
+    const QByteArray& ba = msg.serialize();
 
+    //遍历列表 发送数据
+    for(int i=0; i<m_nodeList.length(); i++)
+    {
+       Node* n = m_nodeList.at(i);
+
+       if( n->socket != NULL )
+       {
+           n->socket->write(ba);
+       }
+    }
 }

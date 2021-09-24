@@ -73,6 +73,7 @@ void MainWin::DSCN_Handler(QTcpSocket&, TextMessage&)
 {
     setCtrlEnable(false);
     inputGrpBx.setTitle("用户名");
+    msgEditor.clear();
 }
 
 void MainWin::LIOK_Handler(QTcpSocket&, TextMessage& msg)
@@ -89,9 +90,9 @@ void MainWin::LIER_Handler(QTcpSocket&, TextMessage&)
     m_client.close();
 }
 
-void MainWin::MSGA_Handler(QTcpSocket&, TextMessage&)
+void MainWin::MSGA_Handler(QTcpSocket&, TextMessage& msg)
 {
-
+    msgEditor.appendPlainText(msg.data());
 }
 
 MainWin::~MainWin()
