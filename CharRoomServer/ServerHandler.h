@@ -30,6 +30,9 @@ class ServerHandler : public TxtMsgHandler
     QList<Node*> m_nodeList;
     QMap<QString, MSGHandler> m_handlerMap;
 
+    QString getOnlineUserId();
+    void sendToAllOnlineUser(TextMessage&);
+
     void CONN_Handler(QTcpSocket&, TextMessage&);
     void DSCN_Handler(QTcpSocket&, TextMessage&);
     void LGIN_Handler(QTcpSocket&, TextMessage&);

@@ -9,6 +9,37 @@ ServerHandler::ServerHandler()
     m_handlerMap.insert("MSGA", &ServerHandler::MSGA_Handler);
 }
 
+QString ServerHandler::getOnlineUserId()
+{
+    QString ret = "";
+
+    for(int i=0; i<m_nodeList.length(); i++)
+    {
+        if(m_nodeList[i]->socket != NULL)
+        {
+            ret += m_nodeList[i]->id + '\r';
+        }
+    }
+
+    return ret;
+}
+
+void ServerHandler::sendToAllOnlineUser(TextMessage& msg)
+{
+    const QByteArray& ba = msg.serialize();
+
+    for(int i=0; i<m_nodeList.length(); i++)
+    {
+        Node* node = m_nodeList[i];
+
+        if( node->socket != NULL )
+        {
+            node->socket->write(ba);
+        }
+    }
+
+}
+
 void ServerHandler::handle(QTcpSocket& obj, TextMessage& msg)
 {
     //检查是否包含这个键值
@@ -37,6 +68,10 @@ void ServerHandler::DSCN_Handler(QTcpSocket& obj, TextMessage&)
            break;
        }
     }
+
+    TextMessage text("USER", getOnlineUserId());
+
+    sendToAllOnlineUser(text);
 
 }
 
@@ -95,6 +130,14 @@ void ServerHandler::LGIN_Handler(QTcpSocket& obj, TextMessage& msg)
     }
 
     obj.write(TextMessage(result, id).serialize());
+
+    if( result == "LIOK" )
+    {
+        TextMessage text("USER", getOnlineUserId());
+
+        sendToAllOnlineUser(text);
+    }
+
 }
 
 void ServerHandler::MSGA_Handler(QTcpSocket&, TextMessage& msg)

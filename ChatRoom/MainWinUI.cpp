@@ -23,7 +23,8 @@ void MainWin::initMsgGrpBx()
 
     msgEditor.setReadOnly(true);
 
-    hbl->addWidget(&msgEditor);
+    hbl->addWidget(&msgEditor, 7);
+    hbl->addWidget(&listWidget, 3);
     hbl->setContentsMargins(2, 5, 2, 2);
 
     msgGrpBx.setLayout(hbl);
@@ -66,6 +67,16 @@ void MainWin::setCtrlEnable(bool enabled)
     statusLbl.setText(enabled ? "状态: 连接成功" : "状态: 未登录");
     logInoutBtn.setText(enabled ? "退出" : "登录");
     sendBtn.setEnabled(enabled);
+
+    if( enabled )
+    {
+
+    }
+    else
+    {
+        listWidget.clear();
+        inputEdit.clear();
+    }
 }
 
 
