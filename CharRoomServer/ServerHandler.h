@@ -37,6 +37,7 @@ class ServerHandler : public TxtMsgHandler
     void DSCN_Handler(QTcpSocket&, TextMessage&);
     void LGIN_Handler(QTcpSocket&, TextMessage&);
     void MSGA_Handler(QTcpSocket&, TextMessage&);
+    void MSGP_Handler(QTcpSocket&, TextMessage&);
 
 public:
     ServerHandler();

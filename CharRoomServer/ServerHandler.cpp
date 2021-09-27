@@ -7,6 +7,7 @@ ServerHandler::ServerHandler()
     m_handlerMap.insert("DSCN", &ServerHandler::DSCN_Handler);
     m_handlerMap.insert("LGIN", &ServerHandler::LGIN_Handler);
     m_handlerMap.insert("MSGA", &ServerHandler::MSGA_Handler);
+    m_handlerMap.insert("MSGP", &ServerHandler::MSGP_Handler);
 }
 
 QString ServerHandler::getOnlineUserId()
@@ -154,4 +155,26 @@ void ServerHandler::MSGA_Handler(QTcpSocket&, TextMessage& msg)
            n->socket->write(ba);
        }
     }
+}
+
+void ServerHandler::MSGP_Handler(QTcpSocket&, TextMessage& msg)
+{
+    QStringList t1 = msg.data().split("\r", QString::SkipEmptyParts);
+    const QByteArray& ba = TextMessage("MSGA", t1.last()).serialize(); //msg信息的最后必然是消息
+
+    t1.removeLast(); //移除消息 剩下的则全部是id
+
+    for(int i=0; i<t1.length(); i++)
+    {
+        for(int j=0; j<m_nodeList.count(); j++)
+        {
+            Node* n = m_nodeList.at(j);
+
+            if( (t1[i] == n->id) && (n->socket != NULL))
+            {
+                n->socket->write(ba);
+            }
+        }
+    }
+
 }

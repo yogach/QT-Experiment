@@ -33,13 +33,38 @@ QString MainWin::getCheckedUserId()
 
 void MainWin::sendBtnClicked()
 {
-    QString text = inputGrpBx.title() + ":\n" + "   " +  inputEdit.text() + "\n";
-    TextMessage tm("MSGA", text);
+    QString input = inputEdit.text().trimmed();
 
-    if( m_client.send(tm) )
+    if( input != "")
     {
-        inputEdit.clear();
+        QString self = inputGrpBx.title();
+        QString text = self + ":\n" + input + "\n";
+        QString uid = getCheckedUserId();
+        bool ok = true;
+
+        if( uid == "")
+        {
+            TextMessage tm("MSGA", text);
+
+            ok = m_client.send(tm);
+        }
+        else
+        {
+            //检查自己的id是否在uid内 如果不在就附在末尾
+            QString sid = (uid.indexOf(self) >= 0) ? uid : ( uid + self + '\r');
+            TextMessage tm("MSGP", sid + text);
+
+            ok = m_client.send(tm);
+        }
+
+        if( ok )
+        {
+            inputEdit.clear();
+        }
+
     }
+
+
 }
 
 void MainWin::logInoutBtnClicked()
