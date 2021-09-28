@@ -173,6 +173,21 @@ void MainWin::USER_Handler(QTcpSocket&, TextMessage& msg)
      }
 }
 
+void MainWin::listWidgetMenuClicked()
+{
+    QAction* act = dynamic_cast<QAction*>(sender()); //得到信号的发送者
+
+    if( act != NULL )
+    {
+        qDebug() << act->objectName();
+    }
+}
+
+void MainWin::listWidgetContextMenu(const QPoint&)
+{
+    listWidgetMenu.exec(QCursor::pos()); //在鼠标位置打开右键菜单
+}
+
 MainWin::~MainWin()
 {
    m_client.close();

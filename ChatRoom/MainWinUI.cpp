@@ -7,6 +7,7 @@ MainWin::MainWin(QWidget *parent)
     initMsgGrpBx();
     connectSlots();
     initMember();
+    initListWidgetMenu();
 
     vMainLayout.addWidget(&msgGrpBx);
     vMainLayout.addWidget(&inputGrpBx);
@@ -22,12 +23,15 @@ void MainWin::initMsgGrpBx()
     QHBoxLayout* hbl = new QHBoxLayout();
 
     msgEditor.setReadOnly(true);
+    msgEditor.setFocusPolicy(Qt::NoFocus);
+    listWidget.setFocusPolicy(Qt::NoFocus);
+    listWidget.setContextMenuPolicy(Qt::CustomContextMenu); //设置listwidget使用自定义的右键菜单
 
     hbl->addWidget(&msgEditor, 7);
     hbl->addWidget(&listWidget, 3);
     hbl->setContentsMargins(2, 5, 2, 2);
 
-    msgGrpBx.setLayout(hbl);
+    msgGrpBx.setLayout(hbl);    
     msgGrpBx.setTitle("聊天消息");
 }
 
@@ -55,10 +59,27 @@ void MainWin::initInputGrpBx()
     inputGrpBx.setTitle("用户区域");
 }
 
+void MainWin::initListWidgetMenu()
+{
+    QAction* act;
+
+    //添加右键菜单对象
+    act = listWidgetMenu.addAction("禁言", this, SLOT(listWidgetMenuClicked()));
+    act->setObjectName("silent");
+
+    act = listWidgetMenu.addAction("恢复", this, SLOT(listWidgetMenuClicked()));
+    act->setObjectName("recover");
+
+    act = listWidgetMenu.addAction("封账号", this, SLOT(listWidgetMenuClicked()));
+    act->setObjectName("kick");
+}
+
 void MainWin::connectSlots()
 {
    connect(&sendBtn, SIGNAL(clicked(bool)), this, SLOT(sendBtnClicked()));
    connect(&logInoutBtn, SIGNAL(clicked(bool)), this, SLOT(logInoutBtnClicked()));
+   //连接listwidget对象的右键点击信号到对应槽函数
+   connect(&listWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(listWidgetContextMenu(QPoint)));
 }
 
 void MainWin::setCtrlEnable(bool enabled)
