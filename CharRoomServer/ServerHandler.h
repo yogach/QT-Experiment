@@ -19,9 +19,11 @@ class ServerHandler : public TxtMsgHandler
     {
         QString id;
         QString pwd;
+        QString status;
+        QString level;
         QTcpSocket* socket;
     public:
-        Node() : id(""), pwd(""), socket(NULL)
+        Node() : id(""), pwd(""), status("ok"), level("user"), socket(NULL)
         {
 
         }

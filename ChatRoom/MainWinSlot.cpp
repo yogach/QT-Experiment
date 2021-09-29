@@ -121,9 +121,32 @@ void MainWin::DSCN_Handler(QTcpSocket&, TextMessage&)
 
 void MainWin::LIOK_Handler(QTcpSocket&, TextMessage& msg)
 {
-     setCtrlEnable(true);
+    QStringList list = msg.data().split("\r", QString::SkipEmptyParts);
+    QString id = list[0];
+    QString status = list[1];
 
-     inputGrpBx.setTitle(msg.data());
+    m_level = list[2];
+
+    if( status == "silent")
+    {
+        setCtrlEnable(true);
+
+        inputGrpBx.setTitle(id);
+        inputEdit.setEnabled(false);
+        sendBtn.setEnabled(false);
+    }
+    else if( status == "kick")
+    {
+        m_client.close();
+
+        QMessageBox::information(this, "提示", "账号 [ " + id + " ] 被禁止登录聊天室！");
+    }
+    else
+    {
+        setCtrlEnable(true);
+
+        inputGrpBx.setTitle(id);
+    }
 }
 
 void MainWin::LIER_Handler(QTcpSocket&, TextMessage&)
@@ -179,13 +202,34 @@ void MainWin::listWidgetMenuClicked()
 
     if( act != NULL )
     {
-        qDebug() << act->objectName();
+        const QList<QListWidgetItem*>& s1 = listWidget.selectedItems(); //得到当前鼠标选择的
+
+        if( s1.length() > 0)
+        {
+            QString user = s1.at(0)->text();
+            QString tip = "确认对聊天成员 [ " + user + " ] 进行" + act->text() + "操作吗？";
+
+            if(QMessageBox::question(this, "提示", tip, QMessageBox::Yes, QMessageBox::No ) == QMessageBox::No )
+            {
+                QString data = act->objectName() + '\r' + user; //得到操作名和id
+                TextMessage tm("ADMN", data);
+
+                m_client.send(tm);
+            }
+        }
+        else
+        {
+            QMessageBox::information(this, "提示", "请选择聊天成员！");
+        }
     }
 }
 
 void MainWin::listWidgetContextMenu(const QPoint&)
 {
-    listWidgetMenu.exec(QCursor::pos()); //在鼠标位置打开右键菜单
+    if( m_level == "admin")
+    {
+        listWidgetMenu.exec(QCursor::pos()); //在鼠标位置打开右键菜单
+    }
 }
 
 MainWin::~MainWin()

@@ -31,6 +31,7 @@ class MainWin : public QWidget , public TxtMsgHandler
     QLoginDialog loginDlg;
     QListWidget listWidget;
     QMenu listWidgetMenu;
+    QString m_level;
 
     ClientDemo m_client;
 

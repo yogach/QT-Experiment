@@ -8,6 +8,14 @@ ServerHandler::ServerHandler()
     m_handlerMap.insert("LGIN", &ServerHandler::LGIN_Handler);
     m_handlerMap.insert("MSGA", &ServerHandler::MSGA_Handler);
     m_handlerMap.insert("MSGP", &ServerHandler::MSGP_Handler);
+
+    static Node admin;
+
+    admin.id = "Admin";
+    admin.pwd = "dt0919";
+    admin.level = "admin";
+
+    m_nodeList.append(&admin);
 }
 
 QString ServerHandler::getOnlineUserId()
@@ -83,6 +91,8 @@ void ServerHandler::LGIN_Handler(QTcpSocket& obj, TextMessage& msg)
     QString id = data.mid(0, index); //取出到指定位置的字符串
     QString pwd = data.mid(index + 1);
     QString result = "";
+    QString status = "";
+    QString level = "";
 
     index = -1;
 
@@ -107,6 +117,8 @@ void ServerHandler::LGIN_Handler(QTcpSocket& obj, TextMessage& msg)
 
             m_nodeList.append(newNode);
 
+            status = newNode->status;
+            level = newNode->level;
             result = "LIOK";
         }
         else
@@ -123,6 +135,8 @@ void ServerHandler::LGIN_Handler(QTcpSocket& obj, TextMessage& msg)
             n->socket = &obj;
 
             result = "LIOK";
+            status = n->status;
+            level = n->level;
         }
         else
         {
@@ -130,7 +144,7 @@ void ServerHandler::LGIN_Handler(QTcpSocket& obj, TextMessage& msg)
         }
     }
 
-    obj.write(TextMessage(result, id).serialize());
+    obj.write(TextMessage(result, id + '\r' + status + 'r' + level).serialize());
 
     if( result == "LIOK" )
     {
