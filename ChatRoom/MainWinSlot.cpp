@@ -12,6 +12,7 @@ void MainWin::initMember()
     m_handlerMap.insert("LIER", &MainWin::LIER_Handler);
     m_handlerMap.insert("MSGA", &MainWin::MSGA_Handler);
     m_handlerMap.insert("USER", &MainWin::USER_Handler);
+    m_handlerMap.insert("CTRL", &MainWin::CTRL_Handler);
 }
 
 QString MainWin::getCheckedUserId()
@@ -196,6 +197,31 @@ void MainWin::USER_Handler(QTcpSocket&, TextMessage& msg)
      }
 }
 
+void MainWin::CTRL_Handler(QTcpSocket&, TextMessage& msg)
+{
+    if( msg.data() == "silent")
+    {
+        QMessageBox::information(this, "提示", "你已经被管理员禁言！");
+
+        inputEdit.clear();
+        inputEdit.setEnabled(false);
+        sendBtn.setEnabled(false);
+    }
+    else if( msg.data() == "kick")
+    {
+        QMessageBox::information(this, "提示", "账号 [ " + inputGrpBx.title() + " ] 被禁止登录聊天室！");
+
+        m_client.close();
+    }
+    else if( msg.data() == "recover")
+    {
+        QMessageBox::information(this,  "提示", "管理员恢复了你的聊天权限！");
+
+        inputEdit.setEnabled(true);
+        sendBtn.setEnabled(true);
+    }
+}
+
 void MainWin::listWidgetMenuClicked()
 {
     QAction* act = dynamic_cast<QAction*>(sender()); //得到信号的发送者
@@ -209,7 +235,7 @@ void MainWin::listWidgetMenuClicked()
             QString user = s1.at(0)->text();
             QString tip = "确认对聊天成员 [ " + user + " ] 进行" + act->text() + "操作吗？";
 
-            if(QMessageBox::question(this, "提示", tip, QMessageBox::Yes, QMessageBox::No ) == QMessageBox::No )
+            if(QMessageBox::question(this, "提示", tip, QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
             {
                 QString data = act->objectName() + '\r' + user; //得到操作名和id
                 TextMessage tm("ADMN", data);
@@ -223,6 +249,8 @@ void MainWin::listWidgetMenuClicked()
         }
     }
 }
+
+
 
 void MainWin::listWidgetContextMenu(const QPoint&)
 {

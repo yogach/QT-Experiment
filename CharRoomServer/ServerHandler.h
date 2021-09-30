@@ -40,6 +40,7 @@ class ServerHandler : public TxtMsgHandler
     void LGIN_Handler(QTcpSocket&, TextMessage&);
     void MSGA_Handler(QTcpSocket&, TextMessage&);
     void MSGP_Handler(QTcpSocket&, TextMessage&);
+    void ADMN_Handler(QTcpSocket&, TextMessage&);
 
 public:
     ServerHandler();

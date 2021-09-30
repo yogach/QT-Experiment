@@ -53,6 +53,7 @@ class MainWin : public QWidget , public TxtMsgHandler
     void LIER_Handler(QTcpSocket&, TextMessage&);
     void MSGA_Handler(QTcpSocket&, TextMessage&);
     void USER_Handler(QTcpSocket&, TextMessage&);
+    void CTRL_Handler(QTcpSocket&, TextMessage&);
 
 private slots:
     void sendBtnClicked();

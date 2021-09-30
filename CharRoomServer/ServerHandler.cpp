@@ -8,11 +8,12 @@ ServerHandler::ServerHandler()
     m_handlerMap.insert("LGIN", &ServerHandler::LGIN_Handler);
     m_handlerMap.insert("MSGA", &ServerHandler::MSGA_Handler);
     m_handlerMap.insert("MSGP", &ServerHandler::MSGP_Handler);
+    m_handlerMap.insert("ADMN", &ServerHandler::ADMN_Handler);
 
     static Node admin;
 
     admin.id = "Admin";
-    admin.pwd = "dt0919";
+    admin.pwd = "admin";
     admin.level = "admin";
 
     m_nodeList.append(&admin);
@@ -144,7 +145,7 @@ void ServerHandler::LGIN_Handler(QTcpSocket& obj, TextMessage& msg)
         }
     }
 
-    obj.write(TextMessage(result, id + '\r' + status + 'r' + level).serialize());
+    obj.write(TextMessage(result, id + '\r' + status + '\r' + level).serialize());
 
     if( result == "LIOK" )
     {
@@ -191,4 +192,23 @@ void ServerHandler::MSGP_Handler(QTcpSocket&, TextMessage& msg)
         }
     }
 
+}
+
+void ServerHandler::ADMN_Handler(QTcpSocket&, TextMessage& msg)
+{
+    QStringList list = msg.data().split("\r", QString::SkipEmptyParts);
+    QString op = list[0];
+    QString id = list[1];
+
+    for(int i=0; i<m_nodeList.length(); i++)
+    {
+        Node* n = m_nodeList.at(i);
+
+        if( (id == n->id) && (n->socket != NULL) && (n->level == "user") )
+        {
+            n->socket->write(TextMessage("CTRL", op).serialize() );
+            n->status = op;
+            break;
+        }
+    }
 }
