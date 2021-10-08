@@ -160,6 +160,8 @@ void MainWin::LIER_Handler(QTcpSocket&, TextMessage&)
 void MainWin::MSGA_Handler(QTcpSocket&, TextMessage& msg)
 {
     msgEditor.appendPlainText(msg.data());
+
+    activateWindow(); //收到消息后 使当前窗口闪烁
 }
 
 void MainWin::USER_Handler(QTcpSocket&, TextMessage& msg)

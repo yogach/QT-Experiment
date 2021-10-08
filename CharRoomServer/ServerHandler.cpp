@@ -68,9 +68,11 @@ void ServerHandler::CONN_Handler(QTcpSocket&, TextMessage&)
 
 void ServerHandler::DSCN_Handler(QTcpSocket& obj, TextMessage&)
 {
+    Node* n = NULL;
+
     for(int i=0; i<m_nodeList.length(); i++)
     {
-       Node* n = m_nodeList.at(i);
+       n = m_nodeList.at(i);
 
        if( n->socket == &obj)
        {
@@ -82,6 +84,13 @@ void ServerHandler::DSCN_Handler(QTcpSocket& obj, TextMessage&)
     TextMessage text("USER", getOnlineUserId());
 
     sendToAllOnlineUser(text);
+
+    if( n != NULL )
+    {
+        TextMessage tm("MSGA", "[ 系统消息 ]\n    ============== [ " + n->id + " ] 退出聊天室 ==============\n" );
+
+        sendToAllOnlineUser(tm);
+    }
 
 }
 
@@ -152,6 +161,10 @@ void ServerHandler::LGIN_Handler(QTcpSocket& obj, TextMessage& msg)
         TextMessage text("USER", getOnlineUserId());
 
         sendToAllOnlineUser(text);
+
+        TextMessage msga("MSGA", "[ 系统消息 ]\n    ============== [ " + id + " ] 进入聊天室 ==============\n");
+
+        sendToAllOnlineUser(msga);
     }
 
 }
