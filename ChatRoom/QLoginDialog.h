@@ -10,6 +10,8 @@
 class QLoginDialog : public QDialog
 {
     Q_OBJECT
+public:
+    typedef bool (*ValFunc)(QString );
 private:
     QLabel UserLabel;
     QLabel PwdLabel;
@@ -24,6 +26,7 @@ private:
     QString m_captcha;
     Qt::GlobalColor* m_colors;
     QTimer m_timer;
+    ValFunc m_vf;
 
 protected:
     void paintEvent(QPaintEvent *);
@@ -39,6 +42,7 @@ public:
     QLoginDialog(QWidget *parent = 0);
     QString getUser();
     QString getPwd();
+    void setValFunc(ValFunc);
     ~QLoginDialog();
 
 };

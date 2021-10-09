@@ -7,7 +7,8 @@
 QLoginDialog::QLoginDialog(QWidget *parent) : QDialog(parent , Qt::WindowCloseButtonHint) ,
     UserLabel(this), PwdLabel(this), CaptLabel(this),
     UserEdit(this), PwdEdit(this), CaptEdit(this),
-    LoginBtn(this), CancelBtn(this)
+    LoginBtn(this), CancelBtn(this),
+    m_vf(NULL)
 {
     UserLabel.setText("用户名:");
     UserLabel.move(20, 30);
@@ -68,7 +69,11 @@ void QLoginDialog::LoginBtn_Clicked()
 
         if( (m_User == "") || (m_Pwd == ""))
         {
-            QMessageBox().critical(this, "消息", "用户名和密码不能为空！");
+            QMessageBox::information(this, "消息", "用户名和密码不能为空！");
+        }
+        else if( (m_vf != NULL) && ( !m_vf(m_User) ))
+        {
+            QMessageBox::critical(this, "错误", "用户名不合法，请重新输入！");
         }
         else
         {
@@ -152,6 +157,11 @@ void QLoginDialog::showEvent(QShowEvent *evt)
     m_colors = getColor();
 
     QDialog::showEvent(evt);
+}
+
+void QLoginDialog::setValFunc(ValFunc valfunc)
+{
+    m_vf = valfunc;
 }
 
 void QLoginDialog::onTimerOut()

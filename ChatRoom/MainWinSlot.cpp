@@ -2,6 +2,24 @@
 #include <QDebug>
 #include <QMessageBox>
 
+static bool ValidateUserID(QString id)
+{
+    bool ret = true;
+    QString invaild = "~`!@#$%^&*()_-+={}[]|\\:;\'\",.?/<>";
+
+    for(int i=0; i<invaild.length(); i++)
+    {
+        if( id.contains(invaild[i]) )
+        {
+            ret = false;
+            break;
+        }
+    }
+
+
+    return ret;
+}
+
 void MainWin::initMember()
 {
     m_client.setHandler(this);
@@ -13,6 +31,24 @@ void MainWin::initMember()
     m_handlerMap.insert("MSGA", &MainWin::MSGA_Handler);
     m_handlerMap.insert("USER", &MainWin::USER_Handler);
     m_handlerMap.insert("CTRL", &MainWin::CTRL_Handler);
+}
+
+bool MainWin::eventFilter(QObject *obj, QEvent *evt)
+{
+    if( (obj == &inputEdit) && (evt->type() == QEvent::KeyPress) )
+    {
+        QKeyEvent* ke = dynamic_cast<QKeyEvent*>(evt);
+
+        if( ke->text() == "\r" )
+        {
+            sendBtnClicked();
+
+            return true; //返回true 表示此事件已经被处理
+        }
+    }
+
+    return QWidget::eventFilter(obj, evt);
+
 }
 
 QString MainWin::getCheckedUserId()
@@ -73,6 +109,8 @@ void MainWin::logInoutBtnClicked()
     //首先检查client的连接状态
     if( !m_client.isVaild() )
     {
+        loginDlg.setValFunc(ValidateUserID);
+
         if( loginDlg.exec() == QDialog::Accepted )
         {
             QString usr = loginDlg.getUser().trimmed();
